@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="rock_type">
+        <item>Select</item>
+        <item>Igneous</item>
+        <item>Sedimentary</item>
+        <item>Metamorphic</item>
+    </string-array>
+
+    <string-array name="grain_size">
+        <item>Select</item>
+        <item>Very fine</item>
+        <item>Fine</item>
+        <item>Medium</item>
+        <item>Coarse</item>
+        <item>Very coarse</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    tools:showIn="@layout/activity_stratigraphy_location_new"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/layout_header_structures"
+        android:background="?selectableItemBackground"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_structures_toggle"
+            android:src="@drawable/ic_expand_more"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:textSize="18sp"
+            android:text="@string/structures"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_structures"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_bedding_plane"
+                android:onClick="onCompassClick"
+                style="@style/CompassButton"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_compass"
+                android:layout_marginEnd="16dp"
+                android:layout_width="@dimen/button_small"
+                android:layout_height="@dimen/button_small"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_toStartOf="@id/btn_bedding_plane"
+                android:paddingTop="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_bedding_plane"
+                    android:hint="@string/bedding_plane"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_fold_axis"
+                android:onClick="onCompassClick"
+                style="@style/CompassButton"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_compass"
+                android:layout_marginEnd="16dp"
+                android:layout_width="@dimen/button_small"
+                android:layout_height="@dimen/button_small"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_toStartOf="@id/btn_fold_axis"
+                android:paddingTop="4dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_fold_axis"
+                    android:hint="@string/fold_axis"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_fault"
+                android:onClick="onCompassClick"
+                style="@style/CompassButton"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_compass"
+                android:layout_marginEnd="16dp"
+                android:layout_width="@dimen/button_small"
+                android:layout_height="@dimen/button_small"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_toStartOf="@id/btn_fault"
+                android:paddingTop="4dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_fault"
+                    android:hint="@string/fault"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_joint"
+                android:onClick="onCompassClick"
+                style="@style/CompassButton"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_compass"
+                android:layout_marginEnd="16dp"
+                android:layout_width="@dimen/button_small"
+                android:layout_height="@dimen/button_small"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_toStartOf="@id/btn_joint"
+                android:paddingTop="4dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_joint"
+                    android:hint="@string/joint"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

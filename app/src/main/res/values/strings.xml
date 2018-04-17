@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">GeolField_Kit</string>
+
+    <string name="field_note">Field Note</string>
+    <string name="tape_and_compass">Tape and Compass</string>
+    <string name="contour">Contour</string>
+    <string name="open_drawer">Open</string>
+    <string name="close_drawer">Close</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="traverse">Traverse</string>
+    <string name="new_traverse">New Traverse</string>
+    <string name="time">Time</string>
+    <string name="location">Location</string>
+    <string name="location_no">Location no.</string>
+    <string name="date">Date</string>
+    <string name="title">Title</string>
+    <string name="gps_location">GPS Location</string>
+    <string name="map_no">Map no.</string>
+    <string name="new_location">New Location</string>
+    <string name="rock_unit">Rock Unit</string>
+    <string name="rock_type">Rock Type</string>
+    <string name="lithology">Lithology</string>
+    <string name="texture">Texture</string>
+    <string name="weathering_color">Weathering Color</string>
+    <string name="fresh_color">Fresh Color</string>
+    <string name="grain_size">Grain Size</string>
+    <string name="mineral_composition">Mineral Composition</string>
+    <string name="note">Note</string>
+    <string name="take_sample">Take Sample</string>
+    <string name="take_outcrop">Take Outcrop</string>
+    <string name="structures">Structures</string>
+    <string name="bedding_foliation">Bedding / Foliation</string>
+    <string name="fold_axis">Fold Axis</string>
+    <string name="lineation">Lineation</string>
+    <string name="compass">Compass</string>
+    <string name="other_information">Other information</string>
+    <string name="attach">Attach file</string>
+    <string name="done">Done</string>
+    <string name="warning">Warning</string>
+    <string name="warning_message">Are you sure that you want to delete?</string>
+    <string name="discard">Discard</string>
+    <string name="discard_message">Are you sure that you want to discard?</string>
+
+    <string name="pref_key">me.aungkooo.geologist.PREF_KEY</string>
+    <string name="set">Set</string>
+    <string name="j1">J1</string>
+    <string name="j2">J2</string>
+    <string name="j3">J3</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="edit_traverse">Edit Traverse</string>
+
+    <!-- Stratigraphy and Economic -->
+    <string name="stratigraphy">Stratigraphy and Economic</string>
+    <string name="date_and_time">Date and Time</string>
+    <string name="formation_name">Formation Name</string>
+    <string name="index_fossil">Index Fossil</string>
+    <string name="age">Age</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="bedding_plane">Bedding Plane</string>
+    <string name="fault">Fault</string>
+    <string name="joint">Joint</string>
+    <string name="collect">Collect</string>
+    <string name="economic_geology">Economic Geology</string>
+    <string name="mineralization">Mineralization</string>
+    <string name="ore_name">Ore Name</string>
+    <string name="mineralization_nature">Mineralization Nature</string>
+    <string name="take_ore_sample">Take Ore Sample</string>
+    <string name="take_rock_sample">Take Rock Sample</string>
+    <string name="take_fossil">Take Fossil</string>
+    <string name="send">Send</string>
+    <string name="print">Print</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+
+
+</resources>

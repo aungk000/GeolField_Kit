@@ -1,0 +1,42 @@
+<resources>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.DarkActionbar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+    <style name="AppbarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <style name="CompassButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+    </style>
+
+    <style name="TitleStyle">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">@dimen/padding_normal</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SubtitleStyle">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:paddingStart">@dimen/padding_normal</item>
+        <item name="android:paddingEnd">@dimen/padding_normal</item>
+    </style>
+
+</resources>

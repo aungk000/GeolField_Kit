@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/refresh_explore_others"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_explore_others"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/txt_no_traverse"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:text="No traverse available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txt_no_network"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:text="No network available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
