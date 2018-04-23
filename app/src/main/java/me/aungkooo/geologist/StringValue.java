@@ -4,8 +4,6 @@ package me.aungkooo.geologist;
 
 public class StringValue
 {
-    /* My Notes Location */
-
     public static String[] rockColors = {
             "black","blackish red","bluish white","brilliant green",
             "brownish black","brownish gray","dark greenish gray","dark greenish yellow",
@@ -122,8 +120,6 @@ public class StringValue
             "Topaz","Tourmaline","Turquoise","Uraninite","Variscite","Witherite","Wollastonite",
             "Zircon","Zoisite"
     };
-
-    /* Stratigraphy Location */
 
     public static String[] formationName = {"Tanshauk Member", "Nan-On Formation", "Wunbye Formation",
             "Lokepyin Formation", "Linwe Formation", "Thitsipin Limestone Formation" };

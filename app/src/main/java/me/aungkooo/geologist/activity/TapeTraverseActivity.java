@@ -15,11 +15,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -27,27 +25,25 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.aungkooo.geologist.R;
-import me.aungkooo.geologist.adapter.StratigraphyLocationAdapter;
-import me.aungkooo.geologist.database.StratigraphyLocationDb;
-import me.aungkooo.geologist.model.MyNotesLocation;
-import me.aungkooo.geologist.model.StratigraphyLocation;
+import me.aungkooo.geologist.adapter.TapeLocationAdapter;
+import me.aungkooo.geologist.database.TapeLocationDb;
+import me.aungkooo.geologist.model.TapeLocation;
 import me.aungkooo.geologist.model.Traverse;
 
 /**
- * Created by Ko Oo on 9/4/2018.
+ * Created by Ko Oo on 20/4/2018.
  */
 
-public class StratigraphyTraverseActivity extends BaseActivity
+public class TapeTraverseActivity extends BaseActivity
 {
     @BindView(R.id.recycler_view_location) RecyclerView recyclerView;
     @BindView(R.id.fab_location_add) FloatingActionButton fabAdd;
 
-    private StratigraphyLocationAdapter locationAdapter;
-    private ArrayList<StratigraphyLocation> locationList;
-    private final int REQUEST_ACTIVITY = 1, REQUEST_FILE_PRINT = 2;
-    private int traverseId;
+    private TapeLocationDb locationDb;
+    private TapeLocationAdapter locationAdapter;
     private String traverseTitle;
-    private StratigraphyLocationDb locationDb;
+    private int traverseId;
+    private final int REQUEST_ACTIVITY = 1, REQUEST_FILE_PRINT = 2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -56,7 +52,7 @@ public class StratigraphyTraverseActivity extends BaseActivity
         setContentView(R.layout.activity_traverse);
 
         ButterKnife.bind(this, this);
-        locationDb = new StratigraphyLocationDb(this);
+        locationDb = new TapeLocationDb(this);
 
         Intent intent = getIntent();
         if(intent != null && getSupportActionBar() != null)
@@ -66,10 +62,9 @@ public class StratigraphyTraverseActivity extends BaseActivity
             traverseId = intent.getIntExtra(Traverse.ID, 0);
         }
 
-        locationList = locationDb.getAllLocation(traverseId);
-        locationAdapter = new StratigraphyLocationAdapter(this, locationList, locationDb);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,
-                false));
+        ArrayList<TapeLocation> locationList = locationDb.getAllLocation(traverseId);
+        locationAdapter = new TapeLocationAdapter(this, locationList, locationDb);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(locationAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -89,9 +84,10 @@ public class StratigraphyTraverseActivity extends BaseActivity
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StratigraphyTraverseActivity.this,
-                        StratigraphyLocationNewActivity.class);
-                intent.putExtra(StratigraphyLocation.NO, locationList.size() + 1);
+                Intent intent = new Intent(TapeTraverseActivity.this,
+                        TapeLocationNewActivity.class);
+                intent.putExtra(TapeLocation.STATION_NO, locationAdapter.getItemCount());
+                intent.putExtra(TapeLocation.NO, locationAdapter.getItemCount() + 1);
                 intent.putExtra(Traverse.ID, traverseId);
 
                 if(intent.resolveActivity(getPackageManager()) != null)
@@ -110,8 +106,7 @@ public class StratigraphyTraverseActivity extends BaseActivity
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK)
         {
             switch (requestCode)
@@ -138,31 +133,22 @@ public class StratigraphyTraverseActivity extends BaseActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void addLocation(Intent data)
+    {
+        int id = data.getIntExtra(TapeLocation.ID, 0);
+        String title = data.getStringExtra(TapeLocation.TITLE);
+        String time = data.getStringExtra(TapeLocation.TIME);
+
+        locationAdapter.addLocation(new TapeLocation(id, title, time));
+    }
+
     private void removeImage(Intent data) throws IOException
     {
         String photoPath = data.getStringExtra("photoPath");
-        String rockSamplePath = data.getStringExtra("rockSamplePath");
-        String fossilPath = data.getStringExtra("fossilPath");
-        String oreSamplePath = data.getStringExtra("oreSamplePath");
 
         if(photoPath != null)
         {
             deleteImageFile(photoPath);
-        }
-
-        if(rockSamplePath != null)
-        {
-            deleteImageFile(rockSamplePath);
-        }
-
-        if(fossilPath != null)
-        {
-            deleteImageFile(fossilPath);
-        }
-
-        if(oreSamplePath != null)
-        {
-            deleteImageFile(oreSamplePath);
         }
     }
 
@@ -215,16 +201,6 @@ public class StratigraphyTraverseActivity extends BaseActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public void addLocation(Intent data)
-    {
-        int id = data.getIntExtra(StratigraphyLocation.ID, 0);
-        String title = data.getStringExtra(StratigraphyLocation.TITLE);
-        String time = data.getStringExtra(StratigraphyLocation.TIME);
-
-        locationList.add(new StratigraphyLocation(id, title, time));
-        locationAdapter.notifyDataSetChanged();
-    }
-
     private void printTraverse(String fileName) throws IOException
     {
         if (ContextCompat.checkSelfPermission(
@@ -242,46 +218,41 @@ public class StratigraphyTraverseActivity extends BaseActivity
             {
                 storageDir.mkdir();
             }
-            File parentDir = new File(storageDir, "/Stratigraphy");
+            File parentDir = new File(storageDir, "/Tape");
             if(!parentDir.exists())
             {
                 parentDir.mkdir();
             }
 
-            File tempFile = new File(parentDir,  fileName + ".txt");
+            File tempFile = new File(parentDir, fileName + ".txt");
             tempFile.createNewFile();
 
             FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
             PrintWriter printWriter = new PrintWriter(fileOutputStream);
 
-            ArrayList<StratigraphyLocation> printList = locationDb.printAllLocation(traverseId);
+            ArrayList<TapeLocation> printList = locationDb.printAllLocation(traverseId);
 
-            for(StratigraphyLocation each: printList)
+            for(TapeLocation each: printList)
             {
                 String temp = each.getTitle() + "\n---------------\n" +
+                        "Station no: " + each.getStationNo() + "\n" +
                         "Date: " + each.getDate() + "\n" +
                         "Time: " + each.getTime() + "\n" +
                         "Latitude: " + each.getLatitude() + "\n" +
                         "Longitude: " + each.getLongitude() + "\n" +
 
-                        "Formation name: " + each.getFormation() + "\n" +
+                        "Slope distance: " + each.getSlopeDistance() + "\n" +
+                        "Bearing and Slope angle: " + each.getBearingSlope() + "\n" +
+                        "Horizontal distance: " + each.getHorizontalDistance() + "\n" +
                         "Lithology: " + each.getLithology() + "\n" +
-                        "Index fossil: " + each.getFossil() + "\n" +
-                        "Age: " + each.getAge() + "\n" +
-                        "Photo: " + each.getFmName() + "\n" +
+                        "Photo: " + each.getPhotoName() + "\n" +
 
-                        "Bedding plane: " + each.getBeddingPlane() + "\n" +
+                        "Bedding / Foliation: " + each.getBeddingFoliation() + "\n" +
+                        "J1: " + each.getJ1() + "\n" +
+                        "J2: " + each.getJ2() + "\n" +
+                        "J3: " + each.getJ3() + "\n" +
                         "Fold axis: " + each.getFoldAxis() + "\n" +
-                        "Fault: " + each.getFault() + "\n" +
-                        "Joint: " + each.getJoint() + "\n" +
-
-                        "Rock sample: " + each.getrName() + "\n" +
-                        "Fossil: " + each.getfName() + "\n" +
-
-                        "Mineralization: " + each.getMineralization() + "\n" +
-                        "Ore name: " + each.getOre() + "\n" +
-                        "Mineralization nature: " + each.getMineralizationNature() + "\n" +
-                        "Ore sample: " + each.getoName() + "\n" +
+                        "Lineation: " + each.getLineation() + "\n" +
 
                         "Note: " + each.getNote() + "\n";
 

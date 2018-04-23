@@ -9,20 +9,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.aungkooo.geologist.R;
+import me.aungkooo.geologist.adapter.TraverseAdapter;
 import me.aungkooo.geologist.database.MyNotesLocationDb;
 import me.aungkooo.geologist.database.MyNotesTraverseDb;
+import me.aungkooo.geologist.dialog.TraverseNewDialog;
 import me.aungkooo.geologist.listener.OnDialogDismissListener;
 import me.aungkooo.geologist.model.Traverse;
-import me.aungkooo.geologist.adapter.TraverseAdapter;
-import me.aungkooo.geologist.dialog.TraverseNewDialog;
 
 
 public class MyNotesFragment extends Fragment implements OnDialogDismissListener
 {
+    @BindView(R.id.recycler_view_traverse) RecyclerView recyclerView;
+    @BindView(R.id.fab_traverse_add) FloatingActionButton fabAdd;
+    Unbinder unbinder;
+
     private TraverseAdapter traverseAdapter;
     private ArrayList<Traverse> traverseList;
     private int FRAGMENT_REQUEST = 1;
@@ -43,27 +51,11 @@ public class MyNotesFragment extends Fragment implements OnDialogDismissListener
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_notes, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
         traverseAdapter = new TraverseAdapter(getContext(), traverseList, traverseDb, locationDb);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_traverse);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,
-                false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(traverseAdapter);
-
-        final FloatingActionButton fabAdd = view.findViewById(R.id.fab_traverse_add);
-        fabAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt(Traverse.SIZE, traverseList.size() + 1);
-
-                TraverseNewDialog dialog = new TraverseNewDialog();
-                dialog.setTargetFragment(MyNotesFragment.this, FRAGMENT_REQUEST);
-                dialog.setArguments(bundle);
-                dialog.show(getFragmentManager(), "Traverse New");
-            }
-        });
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -76,6 +68,19 @@ public class MyNotesFragment extends Fragment implements OnDialogDismissListener
             }
         });
 
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putInt(Traverse.SIZE, traverseList.size() + 1);
+
+                TraverseNewDialog dialog = new TraverseNewDialog();
+                dialog.setTargetFragment(MyNotesFragment.this, FRAGMENT_REQUEST);
+                dialog.setArguments(bundle);
+                dialog.show(getFragmentManager(), TraverseNewDialog.class.getSimpleName());
+            }
+        });
+
         return view;
     }
 
@@ -83,7 +88,12 @@ public class MyNotesFragment extends Fragment implements OnDialogDismissListener
     public void onDialogDismissed(Traverse traverse) {
         int id = (int) traverseDb.insertTraverse(traverse);
         Traverse traverseNew = new Traverse(id, traverse.getTitle(), traverse.getDate());
-        traverseList.add(traverseNew);
-        traverseAdapter.notifyDataSetChanged();
+        traverseAdapter.add(traverseNew);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

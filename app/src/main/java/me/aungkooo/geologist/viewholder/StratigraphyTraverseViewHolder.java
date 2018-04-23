@@ -42,7 +42,7 @@ public class StratigraphyTraverseViewHolder extends RecyclerViewHolder<Traverse>
     public void onClick(View v) {
         Intent intent = new Intent(getContext(), StratigraphyTraverseActivity.class);
         intent.putExtra(Traverse.ID, traverse.getId());
-        intent.putExtra(Traverse.TITLE, txtTitle.getText().toString());
+        intent.putExtra(Traverse.TITLE, traverse.getTitle());
         if(intent.resolveActivity(getContext().getPackageManager()) != null)
         {
             getContext().startActivity(intent);

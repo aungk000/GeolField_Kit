@@ -13,7 +13,7 @@
     <string name="new_traverse">New Traverse</string>
     <string name="time">Time</string>
     <string name="location">Location</string>
-    <string name="location_no">Location no.</string>
+    <string name="location_no">Location no</string>
     <string name="date">Date</string>
     <string name="title">Title</string>
     <string name="gps_location">GPS Location</string>
@@ -74,6 +74,10 @@
     <string name="print">Print</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
+    <string name="station_no">Station no</string>
+    <string name="slope_distance">Slope distance</string>
+    <string name="bearing_and_slope_angle">Bearing and Slope angle</string>
+    <string name="horizontal_distance">Horizontal distance</string>
 
 
 </resources>

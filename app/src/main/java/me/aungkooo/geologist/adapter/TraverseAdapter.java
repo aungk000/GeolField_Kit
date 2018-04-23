@@ -36,7 +36,7 @@ public class TraverseAdapter extends RecyclerAdapter<TraverseViewHolder, Travers
 
     @Override
     public TraverseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = createView(R.layout.traverse, parent);
+        View view = createView(R.layout.view_traverse, parent);
         return new TraverseViewHolder(view, getContext());
     }
 

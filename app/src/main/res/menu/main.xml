@@ -14,11 +14,6 @@
             android:checkable="true"/>
 
         <item
-            android:id="@+id/menu_contour"
-            android:title="@string/contour"
-            android:checkable="true"/>
-
-        <item
             android:id="@+id/menu_stratigraphy"
             android:title="@string/stratigraphy"
             android:checkable="true"/>

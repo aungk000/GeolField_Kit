@@ -32,7 +32,7 @@ public class StratigraphyLocationAdapter extends RecyclerAdapter<StratigraphyLoc
 
     @Override
     public StratigraphyLocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = createView(R.layout.location, parent);
+        View view = createView(R.layout.view_location, parent);
         return new StratigraphyLocationViewHolder(view, getContext());
     }
 

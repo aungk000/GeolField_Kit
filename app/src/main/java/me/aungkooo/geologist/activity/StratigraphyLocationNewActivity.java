@@ -40,6 +40,7 @@ import me.aungkooo.geologist.StringValue;
 import me.aungkooo.geologist.Utility;
 import me.aungkooo.geologist.database.StratigraphyLocationDb;
 import me.aungkooo.geologist.dialog.CompassDialog;
+import me.aungkooo.geologist.listener.OnCompassDialogListener;
 import me.aungkooo.geologist.model.StratigraphyLocation;
 import me.aungkooo.geologist.model.Traverse;
 
@@ -47,7 +48,8 @@ import me.aungkooo.geologist.model.Traverse;
  * Created by Ko Oo on 10/4/2018.
  */
 
-public class StratigraphyLocationNewActivity extends BaseActivity implements LocationListener
+public class StratigraphyLocationNewActivity extends BaseActivity implements LocationListener,
+        OnCompassDialogListener
 {
     @BindView(R.id.edit_location_no) TextInputEditText editLocationNo;
     @BindView(R.id.edit_location_date) TextInputEditText editDate;
@@ -369,6 +371,31 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
             );
         } else {
             locationManager.requestLocationUpdates(LOCATION_PROVIDER, 15000, 10, this);
+        }
+    }
+
+    @Override
+    public void onDialogDismissed(int compassName, int direction, int axis, int slopeAngle)
+    {
+        String value = axis + DEGREE + "/" + direction + DEGREE;
+
+        switch (compassName)
+        {
+            case R.string.bedding_plane:
+                editBeddingPlane.setText(value);
+                break;
+
+            case R.string.fold_axis:
+                editFoldAxis.setText(value);
+                break;
+
+            case R.string.fault:
+                editFault.setText(value);
+                break;
+
+            case R.string.joint:
+                editJoint.setText(value);
+                break;
         }
     }
 

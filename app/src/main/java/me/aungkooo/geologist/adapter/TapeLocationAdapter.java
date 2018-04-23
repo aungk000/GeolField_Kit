@@ -12,35 +12,32 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import me.aungkooo.geologist.R;
-import me.aungkooo.geologist.database.StratigraphyLocationDb;
-import me.aungkooo.geologist.database.StratigraphyTraverseDb;
-import me.aungkooo.geologist.model.Traverse;
-import me.aungkooo.geologist.viewholder.StratigraphyTraverseViewHolder;
+import me.aungkooo.geologist.database.TapeLocationDb;
+import me.aungkooo.geologist.model.TapeLocation;
+import me.aungkooo.geologist.viewholder.TapeLocationViewHolder;
 
 /**
- * Created by Ko Oo on 9/4/2018.
+ * Created by Ko Oo on 20/4/2018.
  */
 
-public class StratigraphyTraverseAdapter extends RecyclerAdapter<StratigraphyTraverseViewHolder, Traverse>
+public class TapeLocationAdapter extends RecyclerAdapter<TapeLocationViewHolder, TapeLocation>
 {
-    private StratigraphyTraverseDb traverseDb;
-    private StratigraphyLocationDb locationDb;
+    private TapeLocationDb locationDb;
 
-    public StratigraphyTraverseAdapter(Context context, ArrayList<Traverse> itemList,
-                                       StratigraphyTraverseDb traverseDb, StratigraphyLocationDb locationDb) {
+    public TapeLocationAdapter(Context context, ArrayList<TapeLocation> itemList,
+                               TapeLocationDb locationDb) {
         super(context, itemList);
-        this.traverseDb = traverseDb;
         this.locationDb = locationDb;
     }
 
     @Override
-    public StratigraphyTraverseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = createView(R.layout.view_traverse, parent);
-        return new StratigraphyTraverseViewHolder(view, getContext());
+    public TapeLocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = createView(R.layout.view_location, parent);
+        return new TapeLocationViewHolder(view, getContext());
     }
 
     @Override
-    public void onBindViewHolder(final StratigraphyTraverseViewHolder holder, int position) {
+    public void onBindViewHolder(TapeLocationViewHolder holder, int position) {
         holder.onBind(getItemList());
 
         final int adapterPosition = holder.getAdapterPosition();
@@ -70,10 +67,8 @@ public class StratigraphyTraverseAdapter extends RecyclerAdapter<StratigraphyTra
                 .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getItemList().remove(position);
-                        notifyDataSetChanged();
-                        traverseDb.deleteTraverse(id);
-                        locationDb.deleteAllLocation(id);
+                        removeLocation(position);
+                        locationDb.deleteLocation(id);
 
                         Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
@@ -87,5 +82,17 @@ public class StratigraphyTraverseAdapter extends RecyclerAdapter<StratigraphyTra
                 });
 
         builder.create().show();
+    }
+
+    public void addLocation(TapeLocation location)
+    {
+        getItemList().add(location);
+        notifyDataSetChanged();
+    }
+
+    public void removeLocation(int position)
+    {
+        getItemList().remove(position);
+        notifyDataSetChanged();
     }
 }

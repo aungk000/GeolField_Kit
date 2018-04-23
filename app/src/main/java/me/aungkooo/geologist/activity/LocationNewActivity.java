@@ -1,4 +1,4 @@
-package me.aungkooo.geologist;
+package me.aungkooo.geologist.activity;
 
 
 import android.Manifest;
@@ -21,7 +21,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,9 +38,12 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.aungkooo.geologist.activity.BaseActivity;
+import me.aungkooo.geologist.R;
+import me.aungkooo.geologist.StringValue;
+import me.aungkooo.geologist.Utility;
 import me.aungkooo.geologist.database.MyNotesLocationDb;
 import me.aungkooo.geologist.dialog.CompassDialog;
+import me.aungkooo.geologist.listener.OnCompassDialogListener;
 import me.aungkooo.geologist.model.MyNotesLocation;
 import me.aungkooo.geologist.model.Traverse;
 
@@ -49,7 +51,7 @@ import me.aungkooo.geologist.model.Traverse;
  * Created by Ko Oo on 11/21/17.
  */
 
-public class LocationNewActivity extends BaseActivity implements LocationListener
+public class LocationNewActivity extends BaseActivity implements LocationListener, OnCompassDialogListener
 {
     @BindView(R.id.img_sample_result) ImageView imgSampleResult;
     @BindView(R.id.img_outcrop_result) ImageView imgOutcropResult;
@@ -82,7 +84,7 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
     private final int REQUEST_IMAGE_SAMPLE = 1, REQUEST_IMAGE_OUTCROP = 2, REQUEST_LOCATION = 3,
             REQUEST_GET_CONTENT = 4;
     private String outcropName, outcropPath, sampleName, samplePath;
-    private int locationNo, traverseId;
+    private int traverseId;
     private LocationManager locationManager;
     private MyNotesLocationDb locationDb;
 
@@ -102,7 +104,7 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
         Intent intent = getIntent();
         if(intent != null)
         {
-            locationNo = intent.getIntExtra(MyNotesLocation.NO, 0);
+            int locationNo = intent.getIntExtra(MyNotesLocation.NO, 0);
             editLocationNo.setText(String.valueOf(locationNo));
             traverseId = intent.getIntExtra(Traverse.ID, 0);
         }
@@ -192,6 +194,40 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
         }
     }
 
+    @Override
+    public void onDialogDismissed(int compassName, int direction, int axis, int slopeAngle)
+    {
+        String value = axis + DEGREE + "/" + direction + DEGREE;
+
+        switch (compassName)
+        {
+            case R.string.bedding_foliation:
+                String bedding = "S0: " + value;
+                editBeddingFoliation.setText(bedding);
+                break;
+
+            case R.string.j1:
+                editJ1.setText(value);
+                break;
+
+            case R.string.j2:
+                editJ2.setText(value);
+                break;
+
+            case R.string.j3:
+                editJ3.setText(value);
+                break;
+
+            case R.string.fold_axis:
+                editFoldAxis.setText(value);
+                break;
+
+            case R.string.lineation:
+                editLineation.setText(value);
+                break;
+        }
+    }
+
     public void onCompassClick(View v)
     {
         Bundle args = new Bundle();
@@ -245,36 +281,34 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case REQUEST_IMAGE_SAMPLE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                                           @NonNull int[] grantResults)
+    {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        {
+            switch (requestCode) {
+                case REQUEST_IMAGE_SAMPLE:
                     try {
                         captureImageSample();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                break;
+                    break;
 
-            case REQUEST_IMAGE_OUTCROP:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                case REQUEST_IMAGE_OUTCROP:
                     try {
                         captureImageOutcrop();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-                break;
+                    break;
 
-            case REQUEST_LOCATION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                case REQUEST_LOCATION:
                     requestLocation();
-                }
-                break;
+                    break;
+            }
         }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void captureImageOutcrop() throws IOException {
@@ -467,7 +501,7 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
                         setResult(RESULT_CANCELED, data);
 
                         finish();
-                        Toast.makeText(LocationNewActivity.this, "Discarded", Toast.LENGTH_SHORT).show();
+                        makeShortToast("Discarded");
                         dialog.dismiss();
                     }
                 })
@@ -540,13 +574,13 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
     public void onLocationChanged(Location location)
     {
         if (ContextCompat.checkSelfPermission(
-                LocationNewActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(LocationNewActivity.this,
+                ContextCompat.checkSelfPermission(this,
                         Manifest.permission.ACCESS_COARSE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
-                    LocationNewActivity.this,
+                    this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_LOCATION
@@ -576,6 +610,4 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
     public void onProviderDisabled(String provider) {
         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
-
-
 }

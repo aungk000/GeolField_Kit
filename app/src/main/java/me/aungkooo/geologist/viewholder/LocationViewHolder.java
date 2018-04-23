@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import me.aungkooo.geologist.LocationDetailActivity;
+import me.aungkooo.geologist.activity.LocationDetailActivity;
 import me.aungkooo.geologist.R;
 import me.aungkooo.geologist.model.MyNotesLocation;
 

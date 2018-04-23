@@ -17,6 +17,7 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
@@ -28,7 +29,9 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
 
+import butterknife.ButterKnife;
 import me.aungkooo.geologist.R;
+import me.aungkooo.geologist.Utility;
 
 /**
  * Created by Ko Oo on 11/4/2018.
@@ -39,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity
     // LocationManager.GPS_PROVIDER has weaker connection
     public String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
     public String JPG_FORMAT = ".jpg";
+    public String DEGREE = "\u00b0";
 
     public void makeShortToast(String message)
     {
@@ -120,6 +124,23 @@ public abstract class BaseActivity extends AppCompatActivity
         return autoText.getSelectedItem().toString();
     }
 
+    public int getInt(EditText editText)
+    {
+        String text = get(editText);
+        return Integer.parseInt(text);
+    }
+
+    public double getDouble(EditText editText)
+    {
+        String text = get(editText);
+        return Double.parseDouble(text);
+    }
+
+    public boolean isVisible(View view)
+    {
+        return view.getVisibility() == View.VISIBLE;
+    }
+
     public void setExpandToggle(int headerId, int layoutId, int imgId) {
         final LinearLayout linearLayout = findViewById(layoutId);
         final ImageView img = findViewById(imgId);
@@ -127,10 +148,12 @@ public abstract class BaseActivity extends AppCompatActivity
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (linearLayout.getVisibility() == View.GONE) {
+                if(!isVisible(linearLayout))
+                {
                     linearLayout.setVisibility(View.VISIBLE);
                     img.setImageResource(R.drawable.ic_expand_less);
-                } else {
+                }
+                else {
                     linearLayout.setVisibility(View.GONE);
                     img.setImageResource(R.drawable.ic_expand_more);
                 }
@@ -138,7 +161,7 @@ public abstract class BaseActivity extends AppCompatActivity
         });
     }
 
-    public void addToGallery(String path) throws IOException
+    public void addToMediaDatabase(String path) throws IOException
     {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File file = new File(path);
@@ -220,18 +243,17 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         layout.setVisibility(View.VISIBLE);
 
-        if (layout.getVisibility() == View.VISIBLE) {
-            try {
-                setScaledImage(imgView, imgPath);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String imageName = imgName + JPG_FORMAT;
-            txtImgName.setText(imageName);
+        try {
+            setScaledImage(imgView, imgPath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        String imageName = imgName + JPG_FORMAT;
+        txtImgName.setText(imageName);
+
         try {
-            addToGallery(imgPath);
+            addToMediaDatabase(imgPath);
         } catch (IOException e) {
             e.printStackTrace();
         }

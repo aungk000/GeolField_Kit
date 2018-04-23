@@ -3,25 +3,23 @@ package me.aungkooo.geologist;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.SensorManager;
 import android.net.ConnectivityManager;
-import android.support.annotation.IdRes;
-import android.support.v4.util.TimeUtils;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class Utility
 {
+    private Utility() {
+    }
+
+    public static double sec(double angle)
+    {
+        return 1 / Math.cos(angle);
+    }
+
     public static int getYear()
     {
         Calendar calendar = Calendar.getInstance();

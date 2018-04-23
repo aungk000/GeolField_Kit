@@ -44,4 +44,10 @@ public abstract class RecyclerAdapter<VH extends RecyclerViewHolder, OBJ> extend
     public Context getContext() {
         return context;
     }
+
+    public void add(OBJ item)
+    {
+        itemList.add(item);
+        notifyDataSetChanged();
+    }
 }

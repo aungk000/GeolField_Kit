@@ -1,4 +1,4 @@
-package me.aungkooo.geologist;
+package me.aungkooo.geologist.activity;
 
 
 import android.Manifest;
@@ -24,8 +24,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.aungkooo.geologist.activity.BaseActivity;
+import me.aungkooo.geologist.R;
 import me.aungkooo.geologist.database.MyNotesLocationDb;
 import me.aungkooo.geologist.model.MyNotesLocation;
 import me.aungkooo.geologist.model.Traverse;
@@ -34,6 +35,9 @@ import me.aungkooo.geologist.adapter.LocationAdapter;
 
 public class TraverseActivity extends BaseActivity
 {
+    @BindView(R.id.recycler_view_location) RecyclerView recyclerView;
+    @BindView(R.id.fab_location_add) FloatingActionButton fabAdd;
+
     public LocationAdapter locationAdapter;
     public ArrayList<MyNotesLocation> locationList;
     private int traverseId;
@@ -59,13 +63,25 @@ public class TraverseActivity extends BaseActivity
 
         locationList = locationDb.getAllLocation(traverseId);
         locationAdapter = new LocationAdapter(this, locationList, locationDb);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view_location);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayout.VERTICAL,
                 false));
         recyclerView.setAdapter(locationAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+            {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState > 0)
+                {
+                    fabAdd.hide();
+                }
+                else {
+                    fabAdd.show();
+                }
+            }
+        });
 
-        FloatingActionButton fabLocationAdd = findViewById(R.id.fab_location_add);
-        fabLocationAdd.setOnClickListener(new View.OnClickListener() {
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TraverseActivity.this,
@@ -260,6 +276,7 @@ public class TraverseActivity extends BaseActivity
             fileOutputStream.close();
 
             makeLongToast("File printed: " + tempFile.getAbsolutePath());
+            addToMediaDatabase(tempFile.getAbsolutePath());
         }
     }
 }

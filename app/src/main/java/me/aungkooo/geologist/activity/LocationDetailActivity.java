@@ -1,4 +1,4 @@
-package me.aungkooo.geologist;
+package me.aungkooo.geologist.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,7 +16,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.aungkooo.geologist.activity.BaseActivity;
+import me.aungkooo.geologist.R;
 import me.aungkooo.geologist.database.MyNotesLocationDb;
 import me.aungkooo.geologist.model.FirebaseLocationModel;
 import me.aungkooo.geologist.model.MyNotesLocation;
@@ -67,68 +67,38 @@ public class LocationDetailActivity extends BaseActivity
             getSupportActionBar().setTitle(title);
 
             int locationId = intent.getIntExtra(MyNotesLocation.ID, 0);
+            MyNotesLocation location = locationDb.getLocation(locationId);
 
-            Cursor cursor = locationDb.getLocation(locationId);
-            cursor.moveToFirst();
+            String gps = "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude();
 
-            String date = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_DATE));
-            String time = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_TIME));
-            String latitude = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_LATITUDE));
-            String longitude = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_LONGITUDE));
-            String map = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_MAP));
-
-            String rockType = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_ROCK_TYPE));
-            String rockUnit = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_ROCK_UNIT));
-            String outcropPath = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_OUTCROP_PATH));
-            String outcropName = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_OUTCROP_NAME));
-
-            String texture = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_TEXTURE));
-            String weatheringColor = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_WEATHERING_COLOR));
-            String freshColor = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_FRESH_COLOR));
-            String grainSize = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_GRAIN_SIZE));
-            String mineralComposition = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_MINERAL_COMPOSITION));
-            String lithologyNote = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_LITHOLOGY_NOTE));
-            String samplePath = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_SAMPLE_PATH));
-            String sampleName = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_SAMPLE_NAME));
-
-            String beddingFoliation = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_BEDDING_FOLIATION));
-            String j1 = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_J1));
-            String j2 = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_J2));
-            String j3 = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_J3));
-            String foldAxis = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_FOLD_AXIS));
-            String lineation = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_LINEATION));
-
-            String note = cursor.getString(cursor.getColumnIndex(MyNotesLocationDb.KEY_NOTE));
-
-            cursor.close();
-
-            String gps = "Latitude: " + latitude + "\nLongitude: " + longitude;
-
-            txtDate.setText(date);
-            txtTime.setText(time);
+            txtDate.setText(location.getDate());
+            txtTime.setText(location.getTime());
             txtGps.setText(gps);
-            txtMap.setText(map);
+            txtMap.setText(location.getMap());
 
-            txtRockType.setText(rockType);
-            txtRockUnit.setText(rockUnit);
-            txtOutcrop.setText(outcropName);
+            txtRockType.setText(location.getRockType());
+            txtRockUnit.setText(location.getRockUnit());
+            txtOutcrop.setText(location.getOutcropName());
 
-            txtTexture.setText(texture);
-            txtWeatheringColor.setText(weatheringColor);
-            txtFreshColor.setText(freshColor);
-            txtGrainSize.setText(grainSize);
-            txtMineralComposition.setText(mineralComposition);
-            txtLithologyNote.setText(lithologyNote);
-            txtSample.setText(sampleName);
+            txtTexture.setText(location.getTexture());
+            txtWeatheringColor.setText(location.getWeatheringColor());
+            txtFreshColor.setText(location.getFreshColor());
+            txtGrainSize.setText(location.getGrainSize());
+            txtMineralComposition.setText(location.getMineralComposition());
+            txtLithologyNote.setText(location.getLithologyNote());
+            txtSample.setText(location.getSampleName());
 
-            txtBeddingFoliation.setText(beddingFoliation);
-            txtJ1.setText(j1);
-            txtJ2.setText(j2);
-            txtJ3.setText(j3);
-            txtFoldAxis.setText(foldAxis);
-            txtLineation.setText(lineation);
+            txtBeddingFoliation.setText(location.getBeddingFoliation());
+            txtJ1.setText(location.getJ1());
+            txtJ2.setText(location.getJ2());
+            txtJ3.setText(location.getJ3());
+            txtFoldAxis.setText(location.getFoldAxis());
+            txtLineation.setText(location.getLineation());
 
-            txtNote.setText(note);
+            txtNote.setText(location.getNote());
+
+            String outcropPath = location.getOutcropPath();
+            String samplePath = location.getSamplePath();
 
             if(outcropPath != null)
             {

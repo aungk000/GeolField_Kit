@@ -13,6 +13,9 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.aungkooo.geologist.R;
 import me.aungkooo.geologist.adapter.StratigraphyTraverseAdapter;
 import me.aungkooo.geologist.database.StratigraphyLocationDb;
@@ -27,6 +30,10 @@ import me.aungkooo.geologist.model.Traverse;
 
 public class StratigraphyFragment extends Fragment implements OnDialogDismissListener
 {
+    @BindView(R.id.recycler_view_stratigraphy_traverse) RecyclerView recyclerView;
+    @BindView(R.id.fab_stratigraphy_traverse_add) FloatingActionButton fabAdd;
+    Unbinder unbinder;
+
     private StratigraphyTraverseAdapter traverseAdapter;
     private ArrayList<Traverse> traverseList;
     private int FRAGMENT_REQUEST = 1;
@@ -45,17 +52,26 @@ public class StratigraphyFragment extends Fragment implements OnDialogDismissLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState)
-    {
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stratigraphy, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
         traverseAdapter = new StratigraphyTraverseAdapter(getContext(), traverseList, traverseDb, locationDb);
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_stratigraphy_traverse);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayout.VERTICAL, false));
         recyclerView.setAdapter(traverseAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState > 0) {
+                    fabAdd.hide();
+                } else {
+                    fabAdd.show();
+                }
+            }
+        });
 
-        final FloatingActionButton fab = view.findViewById(R.id.fab_stratigraphy_traverse_add);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
@@ -68,18 +84,6 @@ public class StratigraphyFragment extends Fragment implements OnDialogDismissLis
             }
         });
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState > 0) {
-                    fab.hide();
-                } else {
-                    fab.show();
-                }
-            }
-        });
-
         return view;
     }
 
@@ -87,7 +91,12 @@ public class StratigraphyFragment extends Fragment implements OnDialogDismissLis
     public void onDialogDismissed(Traverse traverse) {
         int id = (int) traverseDb.insertTraverse(traverse);
         Traverse traverseNew = new Traverse(id, traverse.getTitle(), traverse.getDate());
-        traverseList.add(traverseNew);
-        traverseAdapter.notifyDataSetChanged();
+        traverseAdapter.add(traverseNew);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

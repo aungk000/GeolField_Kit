@@ -58,6 +58,7 @@ public class MyNotesLocation
         this.note = note;
     }
 
+    // print
     public MyNotesLocation(String title, String time, String date, String latitude, String longitude,
                            String map,
                            String rockType, String rockUnit, String outcropName, String texture,
@@ -80,6 +81,39 @@ public class MyNotesLocation
         this.grainSize = grainSize;
         this.mineralComposition = mineralComposition;
         this.lithologyNote = lithologyNote;
+        this.sampleName = sampleName;
+        this.beddingFoliation = beddingFoliation;
+        this.j1 = j1;
+        this.j2 = j2;
+        this.j3 = j3;
+        this.foldAxis = foldAxis;
+        this.lineation = lineation;
+        this.note = note;
+    }
+
+    // single
+    public MyNotesLocation(String time, String date, String latitude, String longitude, String map,
+                           String rockType, String rockUnit, String outcropPath, String outcropName,
+                           String texture, String weatheringColor, String freshColor, String grainSize,
+                           String mineralComposition, String lithologyNote, String samplePath,
+                           String sampleName, String beddingFoliation, String j1, String j2,
+                           String j3, String foldAxis, String lineation, String note) {
+        this.time = time;
+        this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.map = map;
+        this.rockType = rockType;
+        this.rockUnit = rockUnit;
+        this.outcropPath = outcropPath;
+        this.outcropName = outcropName;
+        this.texture = texture;
+        this.weatheringColor = weatheringColor;
+        this.freshColor = freshColor;
+        this.grainSize = grainSize;
+        this.mineralComposition = mineralComposition;
+        this.lithologyNote = lithologyNote;
+        this.samplePath = samplePath;
         this.sampleName = sampleName;
         this.beddingFoliation = beddingFoliation;
         this.j1 = j1;

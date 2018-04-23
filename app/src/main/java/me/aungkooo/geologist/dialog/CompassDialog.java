@@ -1,7 +1,7 @@
 package me.aungkooo.geologist.dialog;
 
-
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,121 +18,70 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.aungkooo.geologist.R;
 import me.aungkooo.geologist.Utility;
+import me.aungkooo.geologist.listener.OnCompassDialogListener;
 
-import static android.content.Context.SENSOR_SERVICE;
 
 public class CompassDialog extends DialogFragment implements SensorEventListener
 {
+    @BindView(R.id.txt_compass_title) TextView txtCompassTitle;
+    @BindView(R.id.txt_compass_direction) TextView txtCompassDirection;
+    @BindView(R.id.txt_compass_axis) TextView txtCompassAxis;
+    @BindView(R.id.btn_compass_set) Button btnCompassSet;
+    Unbinder unbinder;
+
+    private String DEGREE = "\u00b0";
     private SensorManager sensorManager;
-    private float[] gravity = new float[3];
-    private float[] geomagnetic = new float[3];
-    private float[] rotationMatrix = new float[9];
-    private float[] orientationAngles = new float[3];
+    private float[] gravity = new float[3], geomagnetic = new float[3], rotationMatrix = new float[9],
+            orientationAngles = new float[3], acceleration = new float[3];
     private Sensor accelerometer, magnetometer;
-    private float[] acceleration = new float[3];
-    private TextView txtDirection, txtAxis, txtTitle;
-    private String axis;
-    private EditText editBeddingFoliation, editJ1, editJ2, editJ3, editFoldAxis, editLineation,
-    editBeddingPlane, editFault, editJoint;
+    private int axis, direction, slope;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         int typeAccelerometer = Sensor.TYPE_ACCELEROMETER;
         int typeMagneticField = Sensor.TYPE_MAGNETIC_FIELD;
-        sensorManager = (SensorManager) getContext().getSystemService(SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(typeAccelerometer);
-        magnetometer = sensorManager.getDefaultSensor(typeMagneticField);
+        sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager != null) {
+            accelerometer = sensorManager.getDefaultSensor(typeAccelerometer);
+            magnetometer = sensorManager.getDefaultSensor(typeMagneticField);
+        }
     }
 
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
-    {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_compass, (ViewGroup) getView());
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(view);
 
-        AlertDialog dialog = builder.create();
+        unbinder = ButterKnife.bind(this, view);
 
-        editBeddingFoliation = getActivity().findViewById(R.id.edit_bedding_foliation);
-        editJ1 = getActivity().findViewById(R.id.edit_j1);
-        editJ2 = getActivity().findViewById(R.id.edit_j2);
-        editJ3 = getActivity().findViewById(R.id.edit_j3);
-        editFoldAxis = getActivity().findViewById(R.id.edit_fold_axis);
-        editLineation = getActivity().findViewById(R.id.edit_lineation);
-        editBeddingPlane = getActivity().findViewById(R.id.edit_bedding_plane);
-        editFault = getActivity().findViewById(R.id.edit_fault);
-        editJoint = getActivity().findViewById(R.id.edit_joint);
+        final int compassName = getArguments().getInt("compassName");
+        txtCompassTitle.setText(compassName);
 
-        txtTitle = view.findViewById(R.id.txt_compass_title);
-        txtDirection = view.findViewById(R.id.txt_compass_direction);
-        txtAxis = view.findViewById(R.id.txt_compass_axis);
-        Button btnSet = view.findViewById(R.id.btn_compass_set);
-
-        final int name = getArguments().getInt("compassName");
-        txtTitle.setText(name);
-
-        btnSet.setOnClickListener(new View.OnClickListener()
-        {
+        final OnCompassDialogListener listener = (OnCompassDialogListener) getActivity();
+        btnCompassSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String direction = txtDirection.getText().toString();
-                if(axis != null)
-                {
-                    String value = axis + "/" + direction;
-                    switch (name)
-                    {
-                        case R.string.bedding_foliation:
-                            editBeddingFoliation.setText("S0: " + value);
-                            break;
 
-                        case R.string.j1:
-                            editJ1.setText(value);
-                            break;
+                listener.onDialogDismissed(compassName, direction, axis, slope);
 
-                        case R.string.j2:
-                            editJ2.setText(value);
-                            break;
-
-                        case R.string.j3:
-                            editJ3.setText(value);
-                            break;
-
-                        case R.string.fold_axis:
-                            editFoldAxis.setText(value);
-                            break;
-
-                        case R.string.lineation:
-                            editLineation.setText(value);
-                            break;
-
-                        case R.string.bedding_plane:
-                            editBeddingPlane.setText(value);
-                            break;
-
-                        case R.string.fault:
-                            editFault.setText(value);
-                            break;
-
-                        case R.string.joint:
-                            editJoint.setText(value);
-                            break;
-                    }
-                }
                 dismiss();
             }
         });
 
-        if (dialog.getWindow() != null)
-        {
+        AlertDialog dialog = builder.create();
+
+        if (dialog.getWindow() != null) {
             dialog.getWindow().setWindowAnimations(R.style.DialogAnimation);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
@@ -141,15 +90,11 @@ public class CompassDialog extends DialogFragment implements SensorEventListener
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event)
-    {
-        if (event.sensor == accelerometer)
-        {
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor == accelerometer) {
             gravity = Utility.withLowPassFilter(event.values.clone());
             acceleration = Utility.withHighPassFilter(event.values.clone(), gravity);
-        }
-        else if (event.sensor == magnetometer)
-        {
+        } else if (event.sensor == magnetometer) {
             System.arraycopy(event.values, 0, geomagnetic, 0, geomagnetic.length);
         }
 
@@ -170,32 +115,22 @@ public class CompassDialog extends DialogFragment implements SensorEventListener
         int y = (int) orientationAngles[1];
         int x = (int) orientationAngles[2];
 
-        /*if (y > x) {
-            txtAxis.setText("X: " + String.format(Locale.US, "%.1f \u00b0", x) +
-                    "\nY: " + String.format(Locale.US, "%.1f \u00b0", y));
+        direction = heading;
+        slope = y;
 
-            axis = String.format(Locale.US, "%.1f \u00b0", y);
-        }
-        else if (x > y) {
-            txtAxis.setText("X: " + String.format(Locale.US, "%.1f \u00b0", x) +
-                    "\nY: " + String.format(Locale.US, "%.1f \u00b0", y));
+        String xy = "X: " + x + DEGREE + "\nY: " + y + DEGREE;
+        String bearing = heading + DEGREE;
 
-            axis = String.format(Locale.US, "%.1f \u00b0", x);
-        }*/
-
-        txtAxis.setText("X: " + x + "\u00b0" + "\nY: " + y + "\u00b0");
+        txtCompassAxis.setText(xy);
+        txtCompassDirection.setText(bearing);
 
         if (y > x) {
-            axis = y + "\u00b0";
+            axis = y;
+        } else if (x > y) {
+            axis = x;
+        } else {
+            axis = x;
         }
-        else if (x > y) {
-            axis = x + "\u00b0";
-        }
-        else {
-            axis = x + "\u00b0";
-        }
-
-        txtDirection.setText(heading + "\u00b0");
     }
 
     @Override
@@ -218,5 +153,11 @@ public class CompassDialog extends DialogFragment implements SensorEventListener
         super.onDismiss(dialog);
 
         sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

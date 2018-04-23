@@ -32,7 +32,7 @@ public class LocationAdapter extends RecyclerAdapter<LocationViewHolder, MyNotes
 
     @Override
     public LocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = createView(R.layout.location, parent);
+        View view = createView(R.layout.view_location, parent);
         return new LocationViewHolder(view, getContext());
     }
 
