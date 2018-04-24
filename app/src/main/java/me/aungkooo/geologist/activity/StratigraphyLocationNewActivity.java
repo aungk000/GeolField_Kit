@@ -61,6 +61,10 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
     @BindView(R.id.edit_fault) TextInputEditText editFault;
     @BindView(R.id.edit_joint) TextInputEditText editJoint;
     @BindView(R.id.edit_economic_note) TextInputEditText editNote;
+    @BindView(R.id.edit_photo_facing) TextInputEditText editPhotoFacing;
+    @BindView(R.id.edit_rock_facing) TextInputEditText editRockFacing;
+    @BindView(R.id.edit_fossil_facing) TextInputEditText editFossilFacing;
+    @BindView(R.id.edit_ore_facing) TextInputEditText editOreFacing;
 
     private AutoCompleteTextView autoFormation;
     private AutoCompleteTextView autoIndexFossil;
@@ -89,6 +93,7 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
             REQUEST_FOSSIL = 5, REQUEST_ORE_SAMPLE = 6;
     private LocationManager locationManager;
     private int locationNo, traverseId;
+    private String traverseTitle;
     private String photoName, photoPath, rockSampleName, rockSamplePath, fossilName, fossilPath,
     oreSampleName, oreSamplePath;
     private StratigraphyLocationDb locationDb;
@@ -113,6 +118,7 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
             locationNo = intent.getIntExtra(StratigraphyLocation.NO, 0);
             editLocationNo.setText(String.valueOf(locationNo));
             traverseId = intent.getIntExtra(Traverse.ID, 0);
+            traverseTitle = intent.getStringExtra(Traverse.TITLE);
         }
 
         autoFormation = createAutoComplete(R.id.auto_formation_name, StringValue.formationName);
@@ -378,6 +384,7 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
     public void onDialogDismissed(int compassName, int direction, int axis, int slopeAngle)
     {
         String value = axis + DEGREE + "/" + direction + DEGREE;
+        String facing = direction + DEGREE;
 
         switch (compassName)
         {
@@ -396,6 +403,22 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
             case R.string.joint:
                 editJoint.setText(value);
                 break;
+
+            case R.string.photo_facing:
+                editPhotoFacing.setText(facing);
+                break;
+
+            case R.string.rock_facing:
+                editRockFacing.setText(facing);
+                break;
+
+            case R.string.fossil_facing:
+                editFossilFacing.setText(facing);
+                break;
+
+            case R.string.ore_facing:
+                editOreFacing.setText(facing);
+                break;
         }
     }
 
@@ -406,25 +429,41 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
         switch (id)
         {
             case R.id.btn_bedding_plane:
-                args.putInt("compassName", R.string.bedding_plane);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.bedding_plane);
                 break;
 
             case R.id.btn_fold_axis:
-                args.putInt("compassName", R.string.fold_axis);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.fold_axis);
                 break;
 
             case R.id.btn_fault:
-                args.putInt("compassName", R.string.fault);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.fault);
                 break;
 
             case R.id.btn_joint:
-                args.putInt("compassName", R.string.joint);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.joint);
+                break;
+
+            case R.id.btn_photo_facing:
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.photo_facing);
+                break;
+
+            case R.id.btn_rock_facing:
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.rock_facing);
+                break;
+
+            case R.id.btn_fossil_facing:
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.fossil_facing);
+                break;
+
+            case R.id.btn_ore_facing:
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.ore_facing);
                 break;
         }
 
         CompassDialog compassDialog = new CompassDialog();
         compassDialog.setArguments(args);
-        compassDialog.show(getSupportFragmentManager(), "CompassDialog");
+        compassDialog.show(getSupportFragmentManager(), CompassDialog.class.getSimpleName());
     }
 
     @Override
@@ -476,7 +515,7 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
         }
         else
         {
-            String imageFileName = "FM_" + String.valueOf(traverseId) + "_" + String.valueOf(locationNo) +
+            String imageFileName = "FM_" + traverseTitle + "_" + String.valueOf(locationNo) +
                     "_" + Utility.getDay();
             photoName = imageFileName;
 
@@ -531,7 +570,7 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
         }
         else
         {
-            String imageFileName = "R_" + String.valueOf(traverseId) + "_" + String.valueOf(locationNo) +
+            String imageFileName = "R_" + traverseTitle + "_" + String.valueOf(locationNo) +
                     "_" + Utility.getDay();
             rockSampleName = imageFileName;
 
@@ -586,7 +625,7 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
         }
         else
         {
-            String imageFileName = "F_" + String.valueOf(traverseId) + "_" + String.valueOf(locationNo) +
+            String imageFileName = "F_" + traverseTitle + "_" + String.valueOf(locationNo) +
                     "_" + Utility.getDay();
             fossilName = imageFileName;
 
@@ -640,7 +679,7 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
         }
         else
         {
-            String imageFileName = "O_" + String.valueOf(traverseId) + "_" + String.valueOf(locationNo) +
+            String imageFileName = "O_" + traverseTitle + "_" + String.valueOf(locationNo) +
                     "_" + Utility.getDay();
             oreSampleName = imageFileName;
 
@@ -683,10 +722,11 @@ public class StratigraphyLocationNewActivity extends BaseActivity implements Loc
         StratigraphyLocation location = new StratigraphyLocation(
                 traverseId, locationTitle, get(editTime), get(editDate), get(editLatitude),
                 get(editLongitude), get(autoFormation), get(autoLithology), get(autoIndexFossil),
-                get(autoAge), photoPath, photoName, get(editBeddingPlane), get(editFoldAxis),
-                get(editFault), get(editJoint), rockSamplePath, rockSampleName, fossilPath,
-                fossilName, get(autoMineralization), get(autoOre), get(autoMineralizationNature),
-                oreSamplePath, oreSampleName, get(editNote)
+                get(autoAge), photoPath, photoName, get(editPhotoFacing), get(editBeddingPlane),
+                get(editFoldAxis), get(editFault), get(editJoint), rockSamplePath, rockSampleName,
+                get(editRockFacing), fossilPath, fossilName, get(editFossilFacing),
+                get(autoMineralization), get(autoOre), get(autoMineralizationNature),
+                oreSamplePath, oreSampleName, get(editOreFacing), get(editNote)
         );
 
         int id = (int) locationDb.insertLocation(location);

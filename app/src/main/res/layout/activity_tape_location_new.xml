@@ -284,6 +284,42 @@
 
         </android.support.v7.widget.CardView>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_photo_facing"
+                android:onClick="onCompassClick"
+                style="@style/CompassButton"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_compass"
+                android:layout_marginEnd="16dp"
+                android:layout_width="@dimen/button_small"
+                android:layout_height="@dimen/button_small"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_toStartOf="@id/btn_photo_facing"
+                android:paddingTop="4dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/edit_photo_facing"
+                    android:hint="@string/photo_facing"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
         <View
             android:background="@color/grey"
             android:layout_width="match_parent"

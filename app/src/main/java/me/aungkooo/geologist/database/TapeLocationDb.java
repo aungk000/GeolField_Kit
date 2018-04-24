@@ -42,6 +42,7 @@ public class TapeLocationDb extends SQLiteOpenHelper
     public static final String KEY_LITHOLOGY = "lithology";
     public static final String KEY_PHOTO_PATH = "photo_path";
     public static final String KEY_PHOTO_NAME = "photo_name";
+    public static final String KEY_PHOTO_FACING = "photo_facing";
 
     public static final String KEY_BEDDING_FOLIATION = "bedding_foliation";
     public static final String KEY_J1 = "j1";
@@ -69,6 +70,7 @@ public class TapeLocationDb extends SQLiteOpenHelper
                     KEY_LITHOLOGY + TEXT + COMMA +
                     KEY_PHOTO_PATH + TEXT + COMMA +
                     KEY_PHOTO_NAME + TEXT + COMMA +
+                    KEY_PHOTO_FACING + TEXT + COMMA +
 
                     KEY_BEDDING_FOLIATION + TEXT + COMMA +
                     KEY_J1 + TEXT + COMMA +
@@ -113,6 +115,7 @@ public class TapeLocationDb extends SQLiteOpenHelper
         values.put(KEY_LITHOLOGY, location.getLithology());
         values.put(KEY_PHOTO_PATH, location.getPhotoPath());
         values.put(KEY_PHOTO_NAME, location.getPhotoName());
+        values.put(KEY_PHOTO_FACING, location.getPhotoFacing());
 
         values.put(KEY_NOTE, location.getNote());
 
@@ -168,6 +171,7 @@ public class TapeLocationDb extends SQLiteOpenHelper
                 cursor.getString(cursor.getColumnIndex(KEY_LITHOLOGY)),
                 cursor.getString(cursor.getColumnIndex(KEY_PHOTO_PATH)),
                 cursor.getString(cursor.getColumnIndex(KEY_PHOTO_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_PHOTO_FACING)),
 
                 cursor.getString(cursor.getColumnIndex(KEY_BEDDING_FOLIATION)),
                 cursor.getString(cursor.getColumnIndex(KEY_J1)),
@@ -238,6 +242,7 @@ public class TapeLocationDb extends SQLiteOpenHelper
                     cursor.getString(cursor.getColumnIndex(KEY_BEARING_SLOPE)),
                     cursor.getString(cursor.getColumnIndex(KEY_LITHOLOGY)),
                     cursor.getString(cursor.getColumnIndex(KEY_PHOTO_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_PHOTO_FACING)),
 
                     cursor.getString(cursor.getColumnIndex(KEY_BEDDING_FOLIATION)),
                     cursor.getString(cursor.getColumnIndex(KEY_J1)),

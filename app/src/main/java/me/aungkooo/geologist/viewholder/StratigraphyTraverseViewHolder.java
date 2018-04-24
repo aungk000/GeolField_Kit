@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.aungkooo.geologist.R;
 import me.aungkooo.geologist.activity.StratigraphyTraverseActivity;
 import me.aungkooo.geologist.model.Traverse;
@@ -20,13 +22,14 @@ import me.aungkooo.geologist.model.Traverse;
 
 public class StratigraphyTraverseViewHolder extends RecyclerViewHolder<Traverse> implements View.OnClickListener
 {
-    private TextView txtTitle, txtDate;
+    @BindView(R.id.txt_traverse_title) TextView txtTitle;
+    @BindView(R.id.txt_traverse_date) TextView txtDate;
+
     private Traverse traverse;
 
     public StratigraphyTraverseViewHolder(View itemView, Context context) {
         super(itemView, context);
-        txtTitle = findById(R.id.txt_traverse_title);
-        txtDate = findById(R.id.txt_traverse_date);
+        ButterKnife.bind(this, itemView);
         setOnClickListener(this);
     }
 

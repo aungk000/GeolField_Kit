@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.aungkooo.geologist.activity.LocationDetailActivity;
 import me.aungkooo.geologist.R;
 import me.aungkooo.geologist.model.MyNotesLocation;
@@ -18,13 +20,14 @@ import me.aungkooo.geologist.model.MyNotesLocation;
 
 public class LocationViewHolder extends RecyclerViewHolder<MyNotesLocation> implements View.OnClickListener
 {
-    private TextView txtTitle, txtTime;
+    @BindView(R.id.txt_location_title) TextView txtTitle;
+    @BindView(R.id.txt_location_time) TextView txtTime;
+
     private MyNotesLocation location;
 
     public LocationViewHolder(View itemView, Context context) {
         super(itemView, context);
-        txtTitle = findById(R.id.txt_location_title);
-        txtTime = findById(R.id.txt_location_time);
+        ButterKnife.bind(this, itemView);
         setOnClickListener(this);
     }
 

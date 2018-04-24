@@ -4,10 +4,12 @@ package me.aungkooo.geologist.model;
 public class StratigraphyLocation
 {
     private int id, traverseId;
-    private String title, time, date, latitude, longitude, formation, lithology, fossil, age, fmPath, fmName,
-            beddingPlane, foldAxis, fault, joint, rPath, rName, fPath, fName, mineralization, ore,
-            mineralizationNature, oPath, oName, note;
-    public static String TITLE = "locationTitle", TIME = "locationTime", ID = "locationId",
+    private String title, time, date, latitude, longitude, formation, lithology, fossil, age,
+            formationPath, formationName, formationFacing, beddingPlane, foldAxis, fault, joint,
+            rockPath, rockName, rockFacing,
+            fossilPath, fossilName, fossilFacing, mineralization, ore, mineralizationNature,
+            orePath, oreName, oreFacing, note;
+    public static final String TITLE = "locationTitle", TIME = "locationTime", ID = "locationId",
             NO = "locationNo";
 
     public StratigraphyLocation() {
@@ -19,12 +21,15 @@ public class StratigraphyLocation
         this.time = time;
     }
 
+    // database
     public StratigraphyLocation(int traverseId, String title, String time, String date, String latitude,
                                 String longitude, String formation, String lithology, String fossil,
-                                String age, String fmPath, String fmName, String beddingPlane,
-                                String foldAxis, String fault, String joint, String rPath, String rName,
-                                String fPath, String fName, String mineralization, String ore,
-                                String mineralizationNature, String oPath, String oName, String note) {
+                                String age, String formationPath, String formationName, String formationFacing,
+                                String beddingPlane, String foldAxis, String fault, String joint,
+                                String rockPath, String rockName, String rockFacing,
+                                String fossilPath, String fossilName, String fossilFacing,
+                                String mineralization, String ore, String mineralizationNature,
+                                String orePath, String oreName, String oreFacing, String note) {
         this.traverseId = traverseId;
         this.title = title;
         this.time = time;
@@ -35,30 +40,37 @@ public class StratigraphyLocation
         this.lithology = lithology;
         this.fossil = fossil;
         this.age = age;
-        this.fmPath = fmPath;
-        this.fmName = fmName;
+        this.formationPath = formationPath;
+        this.formationName = formationName;
+        this.formationFacing = formationFacing;
         this.beddingPlane = beddingPlane;
         this.foldAxis = foldAxis;
         this.fault = fault;
         this.joint = joint;
-        this.rPath = rPath;
-        this.rName = rName;
-        this.fPath = fPath;
-        this.fName = fName;
+        this.rockPath = rockPath;
+        this.rockName = rockName;
+        this.rockFacing = rockFacing;
+        this.fossilPath = fossilPath;
+        this.fossilName = fossilName;
+        this.fossilFacing = fossilFacing;
         this.mineralization = mineralization;
         this.ore = ore;
         this.mineralizationNature = mineralizationNature;
-        this.oPath = oPath;
-        this.oName = oName;
+        this.orePath = orePath;
+        this.oreName = oreName;
+        this.oreFacing = oreFacing;
         this.note = note;
     }
 
+    // print
     public StratigraphyLocation(String title, String time, String date, String latitude, String longitude,
                                 String formation, String lithology, String fossil, String age,
-                                String fmName, String beddingPlane, String foldAxis, String fault,
-                                String joint, String rName, String fName,
+                                String formationName, String formationFacing, String beddingPlane,
+                                String foldAxis,
+                                String fault, String joint, String rockName, String rockFacing,
+                                String fossilName, String fossilFacing,
                                 String mineralization, String ore, String mineralizationNature,
-                                String oName, String note) {
+                                String oreName, String oreFacing, String note) {
         this.title = title;
         this.time = time;
         this.date = date;
@@ -68,17 +80,61 @@ public class StratigraphyLocation
         this.lithology = lithology;
         this.fossil = fossil;
         this.age = age;
-        this.fmName = fmName;
+        this.formationName = formationName;
+        this.formationFacing = formationFacing;
         this.beddingPlane = beddingPlane;
         this.foldAxis = foldAxis;
         this.fault = fault;
         this.joint = joint;
-        this.rName = rName;
-        this.fName = fName;
+        this.rockName = rockName;
+        this.rockFacing = rockFacing;
+        this.fossilName = fossilName;
+        this.fossilFacing = fossilFacing;
         this.mineralization = mineralization;
         this.ore = ore;
         this.mineralizationNature = mineralizationNature;
-        this.oName = oName;
+        this.oreName = oreName;
+        this.oreFacing = oreFacing;
+        this.note = note;
+    }
+
+    // single
+    public StratigraphyLocation(String time, String date, String latitude, String longitude,
+                                String formation, String lithology, String fossil, String age,
+                                String formationPath, String formationName, String formationFacing,
+                                String beddingPlane,
+                                String foldAxis, String fault, String joint, String rockPath,
+                                String rockName, String rockFacing, String fossilPath, String fossilName,
+                                String fossilFacing, String mineralization, String ore,
+                                String mineralizationNature, String orePath, String oreName,
+                                String oreFacing, String note) {
+        this.time = time;
+        this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.formation = formation;
+        this.lithology = lithology;
+        this.fossil = fossil;
+        this.age = age;
+        this.formationPath = formationPath;
+        this.formationName = formationName;
+        this.formationFacing = formationFacing;
+        this.beddingPlane = beddingPlane;
+        this.foldAxis = foldAxis;
+        this.fault = fault;
+        this.joint = joint;
+        this.rockPath = rockPath;
+        this.rockName = rockName;
+        this.rockFacing = rockFacing;
+        this.fossilPath = fossilPath;
+        this.fossilName = fossilName;
+        this.fossilFacing = fossilFacing;
+        this.mineralization = mineralization;
+        this.ore = ore;
+        this.mineralizationNature = mineralizationNature;
+        this.orePath = orePath;
+        this.oreName = oreName;
+        this.oreFacing = oreFacing;
         this.note = note;
     }
 
@@ -154,21 +210,6 @@ public class StratigraphyLocation
         this.age = age;
     }
 
-    public String getFmPath() {
-        return fmPath;
-    }
-
-    public void setFmPath(String fmPath) {
-        this.fmPath = fmPath;
-    }
-
-    public String getFmName() {
-        return fmName;
-    }
-
-    public void setFmName(String fmName) {
-        this.fmName = fmName;
-    }
 
     public String getBeddingPlane() {
         return beddingPlane;
@@ -202,37 +243,6 @@ public class StratigraphyLocation
         this.joint = joint;
     }
 
-    public String getrPath() {
-        return rPath;
-    }
-
-    public void setrPath(String rPath) {
-        this.rPath = rPath;
-    }
-
-    public String getrName() {
-        return rName;
-    }
-
-    public void setrName(String rName) {
-        this.rName = rName;
-    }
-
-    public String getfPath() {
-        return fPath;
-    }
-
-    public void setfPath(String fPath) {
-        this.fPath = fPath;
-    }
-
-    public String getfName() {
-        return fName;
-    }
-
-    public void setfName(String fName) {
-        this.fName = fName;
-    }
 
     public String getMineralization() {
         return mineralization;
@@ -258,22 +268,6 @@ public class StratigraphyLocation
         this.mineralizationNature = mineralizationNature;
     }
 
-    public String getoPath() {
-        return oPath;
-    }
-
-    public void setoPath(String oPath) {
-        this.oPath = oPath;
-    }
-
-    public String getoName() {
-        return oName;
-    }
-
-    public void setoName(String oName) {
-        this.oName = oName;
-    }
-
     public String getNote() {
         return note;
     }
@@ -296,5 +290,101 @@ public class StratigraphyLocation
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getFormationPath() {
+        return formationPath;
+    }
+
+    public void setFormationPath(String formationPath) {
+        this.formationPath = formationPath;
+    }
+
+    public String getFormationName() {
+        return formationName;
+    }
+
+    public void setFormationName(String formationName) {
+        this.formationName = formationName;
+    }
+
+    public String getFormationFacing() {
+        return formationFacing;
+    }
+
+    public void setFormationFacing(String formationFacing) {
+        this.formationFacing = formationFacing;
+    }
+
+    public String getRockPath() {
+        return rockPath;
+    }
+
+    public void setRockPath(String rockPath) {
+        this.rockPath = rockPath;
+    }
+
+    public String getRockName() {
+        return rockName;
+    }
+
+    public void setRockName(String rockName) {
+        this.rockName = rockName;
+    }
+
+    public String getRockFacing() {
+        return rockFacing;
+    }
+
+    public void setRockFacing(String rockFacing) {
+        this.rockFacing = rockFacing;
+    }
+
+    public String getFossilPath() {
+        return fossilPath;
+    }
+
+    public void setFossilPath(String fossilPath) {
+        this.fossilPath = fossilPath;
+    }
+
+    public String getFossilName() {
+        return fossilName;
+    }
+
+    public void setFossilName(String fossilName) {
+        this.fossilName = fossilName;
+    }
+
+    public String getFossilFacing() {
+        return fossilFacing;
+    }
+
+    public void setFossilFacing(String fossilFacing) {
+        this.fossilFacing = fossilFacing;
+    }
+
+    public String getOrePath() {
+        return orePath;
+    }
+
+    public void setOrePath(String orePath) {
+        this.orePath = orePath;
+    }
+
+    public String getOreName() {
+        return oreName;
+    }
+
+    public void setOreName(String oreName) {
+        this.oreName = oreName;
+    }
+
+    public String getOreFacing() {
+        return oreFacing;
+    }
+
+    public void setOreFacing(String oreFacing) {
+        this.oreFacing = oreFacing;
     }
 }

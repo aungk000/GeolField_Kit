@@ -68,6 +68,7 @@ public class TapeLocationNewActivity extends BaseActivity implements LocationLis
     @BindView(R.id.edit_j3) TextInputEditText editJ3;
     @BindView(R.id.edit_fold_axis) TextInputEditText editFoldAxis;
     @BindView(R.id.edit_lineation) TextInputEditText editLineation;
+    @BindView(R.id.edit_photo_facing) TextInputEditText editPhotoFacing;
 
     @BindView(R.id.layout_photo_result) CardView layoutPhotoResult;
     @BindView(R.id.img_photo_result) ImageView imgPhotoResult;
@@ -82,6 +83,7 @@ public class TapeLocationNewActivity extends BaseActivity implements LocationLis
     private TapeLocationDb locationDb;
     private LocationManager locationManager;
     private int traverseId;
+    private String traverseTitle;
     private String photoPath, photoName;
 
     @Override
@@ -105,6 +107,7 @@ public class TapeLocationNewActivity extends BaseActivity implements LocationLis
             traverseId = intent.getIntExtra(Traverse.ID, 0);
             int stationNo = intent.getIntExtra(TapeLocation.STATION_NO, 0);
             editStationNo.setText(String.valueOf(stationNo));
+            traverseTitle = intent.getStringExtra(Traverse.TITLE);
         }
 
         autoLithology = createMultiAutoCompleteComma(R.id.auto_lithology, StringValue.rockUnits);
@@ -222,7 +225,7 @@ public class TapeLocationNewActivity extends BaseActivity implements LocationLis
         }
         else {
 
-            String imageFileName = "TP_" + String.valueOf(traverseId) + "_" + get(editLocationNo)
+            String imageFileName = "TP_" + traverseTitle + "_" + get(editLocationNo)
                     + "_" + Utility.getDay();
             photoName = imageFileName;
 
@@ -356,7 +359,8 @@ public class TapeLocationNewActivity extends BaseActivity implements LocationLis
         TapeLocation location = new TapeLocation(
                 traverseId, getInt(editStationNo), locationTitle, get(editLocationDate),
                 get(editLocationTime), get(editLatitude), get(editLongitude), get(editBearingSlope),
-                get(autoLithology), photoPath, photoName, get(editBeddingFoliation), get(editJ1),
+                get(autoLithology), photoPath, photoName, get(editPhotoFacing),
+                get(editBeddingFoliation), get(editJ1),
                 get(editJ2), get(editJ3), get(editFoldAxis), get(editLineation), get(editNote),
                 getDouble(editHorizontalDistance), getDouble(editSlopDistance)
         );
@@ -377,6 +381,7 @@ public class TapeLocationNewActivity extends BaseActivity implements LocationLis
     public void onDialogDismissed(int compassName, int direction, int axis, int slopeAngle)
     {
         String value = axis + DEGREE + "/" + direction + DEGREE;
+        String facing = direction + DEGREE;
 
         switch (compassName)
         {
@@ -407,6 +412,10 @@ public class TapeLocationNewActivity extends BaseActivity implements LocationLis
 
             case R.string.bearing_and_slope_angle:
                 calcHorizontalDistance(direction, slopeAngle);
+                break;
+
+            case R.string.photo_facing:
+                editPhotoFacing.setText(facing);
                 break;
         }
     }
@@ -442,31 +451,35 @@ public class TapeLocationNewActivity extends BaseActivity implements LocationLis
         switch (id)
         {
             case R.id.btn_bedding_foliation:
-                args.putInt("compassName", R.string.bedding_foliation);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.bedding_foliation);
                 break;
 
             case R.id.btn_j1:
-                args.putInt("compassName", R.string.j1);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.j1);
                 break;
 
             case R.id.btn_j2:
-                args.putInt("compassName", R.string.j2);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.j2);
                 break;
 
             case R.id.btn_j3:
-                args.putInt("compassName", R.string.j3);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.j3);
                 break;
 
             case R.id.btn_fold_axis:
-                args.putInt("compassName", R.string.fold_axis);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.fold_axis);
                 break;
 
             case R.id.btn_lineation:
-                args.putInt("compassName", R.string.lineation);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.lineation);
                 break;
 
             case R.id.btn_bearing_slope:
-                args.putInt("compassName", R.string.bearing_and_slope_angle);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.bearing_and_slope_angle);
+                break;
+
+            case R.id.btn_photo_facing:
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.photo_facing);
                 break;
         }
 

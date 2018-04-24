@@ -1,7 +1,6 @@
 package me.aungkooo.geologist.activity;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
@@ -41,6 +40,10 @@ public class StratigraphyLocationDetailActivity extends BaseActivity
     @BindView(R.id.txt_min_nature) TextView txtMinNature;
     @BindView(R.id.txt_ore_sample) TextView txtOreSample;
     @BindView(R.id.txt_note) TextView txtNote;
+    @BindView(R.id.txt_formation_facing) TextView txtFormationFacing;
+    @BindView(R.id.txt_rock_facing) TextView txtRockFacing;
+    @BindView(R.id.txt_fossil_facing) TextView txtFossilFacing;
+    @BindView(R.id.txt_ore_facing) TextView txtOreFacing;
 
     @BindView(R.id.img_formation) ImageView imgFormation;
     @BindView(R.id.img_rock_sample) ImageView imgRockSample;
@@ -65,94 +68,78 @@ public class StratigraphyLocationDetailActivity extends BaseActivity
 
             int locationId = intent.getIntExtra(StratigraphyLocation.ID, 0);
 
-            Cursor cursor = locationDb.getLocation(locationId);
-            cursor.moveToFirst();
+            StratigraphyLocation location = locationDb.getLocation(locationId);
 
-            String date = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_DATE));
-            String time = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_TIME));
-            String latitude = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_LATITUDE));
-            String longitude = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_LONGITUDE));
+            String gps = "Latitude: " + location.getLatitude() + "\nLongitude: " + location.getLongitude();
 
-            String formation = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_FORMATION));
-            String lithology = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_LITHOLOGY));
-            String fossil = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_FOSSIL));
-            String age = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_AGE));
-            String fmPath = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_FM_PATH));
-            String fmName = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_FM_NAME));
-
-            String beddingPlane = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_BEDDING_PLANE));
-            String foldAxis = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_FOLD_AXIS));
-            String fault = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_FAULT));
-            String joint = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_JOINT));
-
-            String rPath = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_R_PATH));
-            String rName = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_R_NAME));
-            String fPath = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_F_PATH));
-            String fName = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_F_NAME));
-
-            String min = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_MIN));
-            String ore = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_ORE));
-            String minNature = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_MIN_NATURE));
-            String oPath = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_O_PATH));
-            String oName = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_O_NAME));
-
-            String note = cursor.getString(cursor.getColumnIndex(StratigraphyLocationDb.KEY_NOTE));
-
-            cursor.close();
-
-            String gps = "Latitude: " + latitude + "\nLongitude: " + longitude;
-
-            txtDate.setText(date);
-            txtTime.setText(time);
+            txtDate.setText(location.getDate());
+            txtTime.setText(location.getTime());
             txtGps.setText(gps);
-            txtFormation.setText(formation);
-            txtLithology.setText(lithology);
-            txtFossil.setText(fossil);
-            txtAge.setText(age);
-            txtFormationPhoto.setText(fmName);
-            txtBeddingPlane.setText(beddingPlane);
-            txtFoldAxis.setText(foldAxis);
-            txtFault.setText(fault);
-            txtJoint.setText(joint);
-            txtRockSample.setText(rName);
-            txtFossilPhoto.setText(fName);
-            txtMineralization.setText(min);
-            txtOre.setText(ore);
-            txtMinNature.setText(minNature);
-            txtOreSample.setText(oName);
-            txtNote.setText(note);
+            txtFormation.setText(location.getFormation());
+            txtLithology.setText(location.getLithology());
+            txtFossil.setText(location.getFossil());
+            txtAge.setText(location.getAge());
+            txtFormationPhoto.setText(location.getFormationName());
+            String formationFacing = "Photo facing: " + location.getFormationFacing();
+            txtFormationFacing.setText(formationFacing);
 
-            if(fmPath != null)
+            txtBeddingPlane.setText(location.getBeddingPlane());
+            txtFoldAxis.setText(location.getFoldAxis());
+            txtFault.setText(location.getFault());
+            txtJoint.setText(location.getJoint());
+
+            txtRockSample.setText(location.getRockName());
+            String rockFacing = "Photo facing: " + location.getRockFacing();
+            txtRockFacing.setText(rockFacing);
+            txtFossilPhoto.setText(location.getFossilName());
+            String fossilFacing = "Photo facing: " + location.getFossilFacing();
+            txtFossilFacing.setText(fossilFacing);
+
+            txtMineralization.setText(location.getMineralization());
+            txtOre.setText(location.getOre());
+            txtMinNature.setText(location.getMineralizationNature());
+            txtOreSample.setText(location.getOreName());
+            String oreFacing = "Photo facing: " + location.getOreFacing();
+            txtOreFacing.setText(oreFacing);
+
+            txtNote.setText(location.getNote());
+
+            String formationPath = location.getFormationPath();
+            String rockPath = location.getRockPath();
+            String fossilPath = location.getFossilPath();
+            String orePath = location.getOrePath();
+
+            if(formationPath != null)
             {
                 try {
-                    setScaledImage(imgFormation, fmPath);
+                    setScaledImage(imgFormation, formationPath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            if(rPath != null)
+            if(rockPath != null)
             {
                 try {
-                    setScaledImage(imgRockSample, rPath);
+                    setScaledImage(imgRockSample, rockPath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            if(fPath != null)
+            if(fossilPath != null)
             {
                 try {
-                    setScaledImage(imgFossil, fPath);
+                    setScaledImage(imgFossil, fossilPath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            if(oPath != null)
+            if(orePath != null)
             {
                 try {
-                    setScaledImage(imgOreSample, oPath);
+                    setScaledImage(imgOreSample, orePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

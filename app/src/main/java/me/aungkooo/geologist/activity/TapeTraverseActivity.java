@@ -89,6 +89,7 @@ public class TapeTraverseActivity extends BaseActivity
                 intent.putExtra(TapeLocation.STATION_NO, locationAdapter.getItemCount());
                 intent.putExtra(TapeLocation.NO, locationAdapter.getItemCount() + 1);
                 intent.putExtra(Traverse.ID, traverseId);
+                intent.putExtra(Traverse.TITLE, traverseTitle);
 
                 if(intent.resolveActivity(getPackageManager()) != null)
                 {

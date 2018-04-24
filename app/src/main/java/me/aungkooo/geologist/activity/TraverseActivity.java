@@ -88,6 +88,7 @@ public class TraverseActivity extends BaseActivity
                         LocationNewActivity.class);
                 intent.putExtra(MyNotesLocation.NO, locationList.size() + 1);
                 intent.putExtra(Traverse.ID, traverseId);
+                intent.putExtra(Traverse.TITLE, traverseTitle);
 
                 if(intent.resolveActivity(getPackageManager()) != null)
                 {

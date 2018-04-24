@@ -37,24 +37,28 @@ public class StratigraphyLocationDb extends SQLiteOpenHelper
     public static final String KEY_LITHOLOGY = "lithology";
     public static final String KEY_FOSSIL = "fossil";
     public static final String KEY_AGE = "age";
-    public static final String KEY_FM_PATH = "fm_path";
-    public static final String KEY_FM_NAME = "fm_name";
+    public static final String KEY_FORMATION_PATH = "formation_path";
+    public static final String KEY_FORMATION_NAME = "formation_name";
+    public static final String KEY_FORMATION_FACING = "formation_facing";
 
     public static final String KEY_BEDDING_PLANE = "bedding_plane";
     public static final String KEY_FOLD_AXIS = "fold_axis";
     public static final String KEY_FAULT = "fault";
     public static final String KEY_JOINT = "joint";
 
-    public static final String KEY_R_PATH = "r_path";
-    public static final String KEY_R_NAME = "r_name";
-    public static final String KEY_F_PATH = "f_path";
-    public static final String KEY_F_NAME = "f_name";
+    public static final String KEY_ROCK_PATH = "rock_path";
+    public static final String KEY_ROCK_NAME = "rock_name";
+    public static final String KEY_ROCK_FACING = "rock_facing";
+    public static final String KEY_FOSSIL_PATH = "fossil_path";
+    public static final String KEY_FOSSIL_NAME = "fossil_name";
+    public static final String KEY_FOSSIL_FACING = "fossil_facing";
 
     public static final String KEY_MIN = "mineralization";
     public static final String KEY_ORE = "ore";
     public static final String KEY_MIN_NATURE = "mineralization_nature";
-    public static final String KEY_O_PATH = "o_path";
-    public static final String KEY_O_NAME = "o_name";
+    public static final String KEY_ORE_PATH = "ore_path";
+    public static final String KEY_ORE_NAME = "ore_name";
+    public static final String KEY_ORE_FACING = "ore_facing";
 
     public static final String KEY_NOTE = "note";
 
@@ -72,24 +76,28 @@ public class StratigraphyLocationDb extends SQLiteOpenHelper
                     KEY_LITHOLOGY + TEXT + COMMA +
                     KEY_FOSSIL + TEXT + COMMA +
                     KEY_AGE + TEXT + COMMA +
-                    KEY_FM_PATH + TEXT + COMMA +
-                    KEY_FM_NAME + TEXT + COMMA +
+                    KEY_FORMATION_PATH + TEXT + COMMA +
+                    KEY_FORMATION_NAME + TEXT + COMMA +
+                    KEY_FORMATION_FACING + TEXT + COMMA +
 
                     KEY_BEDDING_PLANE + TEXT + COMMA +
                     KEY_FOLD_AXIS + TEXT + COMMA +
                     KEY_FAULT + TEXT + COMMA +
                     KEY_JOINT + TEXT + COMMA +
 
-                    KEY_R_PATH + TEXT + COMMA +
-                    KEY_R_NAME + TEXT + COMMA +
-                    KEY_F_PATH + TEXT + COMMA +
-                    KEY_F_NAME + TEXT + COMMA +
+                    KEY_ROCK_PATH + TEXT + COMMA +
+                    KEY_ROCK_NAME + TEXT + COMMA +
+                    KEY_ROCK_FACING + TEXT + COMMA +
+                    KEY_FOSSIL_PATH + TEXT + COMMA +
+                    KEY_FOSSIL_NAME + TEXT + COMMA +
+                    KEY_FOSSIL_FACING + TEXT + COMMA +
 
                     KEY_MIN + TEXT + COMMA +
                     KEY_ORE + TEXT + COMMA +
                     KEY_MIN_NATURE + TEXT + COMMA +
-                    KEY_O_PATH + TEXT + COMMA +
-                    KEY_O_NAME + TEXT + COMMA +
+                    KEY_ORE_PATH + TEXT + COMMA +
+                    KEY_ORE_NAME + TEXT + COMMA +
+                    KEY_ORE_FACING + TEXT + COMMA +
 
                     KEY_NOTE + TEXT + ")";
 
@@ -124,24 +132,28 @@ public class StratigraphyLocationDb extends SQLiteOpenHelper
         values.put(KEY_LITHOLOGY, location.getLithology());
         values.put(KEY_FOSSIL, location.getFossil());
         values.put(KEY_AGE, location.getAge());
-        values.put(KEY_FM_PATH, location.getFmPath());
-        values.put(KEY_FM_NAME, location.getFmName());
+        values.put(KEY_FORMATION_PATH, location.getFormationPath());
+        values.put(KEY_FORMATION_NAME, location.getFormationName());
+        values.put(KEY_FORMATION_FACING, location.getFormationFacing());
 
         values.put(KEY_BEDDING_PLANE, location.getBeddingPlane());
         values.put(KEY_FOLD_AXIS, location.getFoldAxis());
         values.put(KEY_FAULT, location.getFault());
         values.put(KEY_JOINT, location.getJoint());
 
-        values.put(KEY_R_PATH, location.getrPath());
-        values.put(KEY_R_NAME, location.getrName());
-        values.put(KEY_F_PATH, location.getfPath());
-        values.put(KEY_F_NAME, location.getfName());
+        values.put(KEY_ROCK_PATH, location.getRockPath());
+        values.put(KEY_ROCK_NAME, location.getRockName());
+        values.put(KEY_ROCK_FACING, location.getRockFacing());
+        values.put(KEY_FOSSIL_PATH, location.getFossilPath());
+        values.put(KEY_FOSSIL_NAME, location.getFossilName());
+        values.put(KEY_FOSSIL_FACING, location.getFossilFacing());
 
         values.put(KEY_MIN, location.getMineralization());
         values.put(KEY_ORE, location.getOre());
         values.put(KEY_MIN_NATURE, location.getMineralizationNature());
-        values.put(KEY_O_PATH, location.getoPath());
-        values.put(KEY_O_NAME, location.getoName());
+        values.put(KEY_ORE_PATH, location.getOrePath());
+        values.put(KEY_ORE_NAME, location.getOreName());
+        values.put(KEY_ORE_FACING, location.getOreFacing());
 
         values.put(KEY_NOTE, location.getNote());
 
@@ -173,7 +185,7 @@ public class StratigraphyLocationDb extends SQLiteOpenHelper
         db.close();
     }
 
-    public Cursor getLocation(int id)
+    public StratigraphyLocation getLocation(int id)
     {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -181,7 +193,48 @@ public class StratigraphyLocationDb extends SQLiteOpenHelper
         String whereClause = " WHERE " + KEY_ID + " =? ";
         String[] whereArgs = new String[] {String.valueOf(id)};
 
-        return db.rawQuery(SQL_SYNTAX_SELECT_ALL + whereClause, whereArgs);
+        Cursor cursor = db.rawQuery(SQL_SYNTAX_SELECT_ALL + whereClause, whereArgs);
+        cursor.moveToFirst();
+
+        StratigraphyLocation location = new StratigraphyLocation(
+                cursor.getString(cursor.getColumnIndex(KEY_TIME)),
+                cursor.getString(cursor.getColumnIndex(KEY_DATE)),
+                cursor.getString(cursor.getColumnIndex(KEY_LATITUDE)),
+                cursor.getString(cursor.getColumnIndex(KEY_LONGITUDE)),
+
+                cursor.getString(cursor.getColumnIndex(KEY_FORMATION)),
+                cursor.getString(cursor.getColumnIndex(KEY_LITHOLOGY)),
+                cursor.getString(cursor.getColumnIndex(KEY_FOSSIL)),
+                cursor.getString(cursor.getColumnIndex(KEY_AGE)),
+                cursor.getString(cursor.getColumnIndex(KEY_FORMATION_PATH)),
+                cursor.getString(cursor.getColumnIndex(KEY_FORMATION_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_FORMATION_FACING)),
+
+                cursor.getString(cursor.getColumnIndex(KEY_BEDDING_PLANE)),
+                cursor.getString(cursor.getColumnIndex(KEY_FOLD_AXIS)),
+                cursor.getString(cursor.getColumnIndex(KEY_FAULT)),
+                cursor.getString(cursor.getColumnIndex(KEY_JOINT)),
+
+                cursor.getString(cursor.getColumnIndex(KEY_ROCK_PATH)),
+                cursor.getString(cursor.getColumnIndex(KEY_ROCK_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_ROCK_FACING)),
+                cursor.getString(cursor.getColumnIndex(KEY_FOSSIL_PATH)),
+                cursor.getString(cursor.getColumnIndex(KEY_FOSSIL_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_FOSSIL_FACING)),
+
+                cursor.getString(cursor.getColumnIndex(KEY_MIN)),
+                cursor.getString(cursor.getColumnIndex(KEY_ORE)),
+                cursor.getString(cursor.getColumnIndex(KEY_MIN_NATURE)),
+                cursor.getString(cursor.getColumnIndex(KEY_ORE_PATH)),
+                cursor.getString(cursor.getColumnIndex(KEY_ORE_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_ORE_FACING)),
+
+                cursor.getString(cursor.getColumnIndex(KEY_NOTE))
+        );
+
+        cursor.close();
+
+        return location;
     }
 
     public ArrayList<StratigraphyLocation> getAllLocation(int traverseId)
@@ -238,20 +291,24 @@ public class StratigraphyLocationDb extends SQLiteOpenHelper
                     cursor.getString(cursor.getColumnIndex(KEY_LITHOLOGY)),
                     cursor.getString(cursor.getColumnIndex(KEY_FOSSIL)),
                     cursor.getString(cursor.getColumnIndex(KEY_AGE)),
-                    cursor.getString(cursor.getColumnIndex(KEY_FM_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_FORMATION_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_FORMATION_FACING)),
 
                     cursor.getString(cursor.getColumnIndex(KEY_BEDDING_PLANE)),
                     cursor.getString(cursor.getColumnIndex(KEY_FOLD_AXIS)),
                     cursor.getString(cursor.getColumnIndex(KEY_FAULT)),
                     cursor.getString(cursor.getColumnIndex(KEY_JOINT)),
 
-                    cursor.getString(cursor.getColumnIndex(KEY_R_NAME)),
-                    cursor.getString(cursor.getColumnIndex(KEY_F_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_ROCK_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_ROCK_FACING)),
+                    cursor.getString(cursor.getColumnIndex(KEY_FOSSIL_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_FOSSIL_FACING)),
 
                     cursor.getString(cursor.getColumnIndex(KEY_MIN)),
                     cursor.getString(cursor.getColumnIndex(KEY_ORE)),
                     cursor.getString(cursor.getColumnIndex(KEY_MIN_NATURE)),
-                    cursor.getString(cursor.getColumnIndex(KEY_O_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_ORE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_ORE_FACING)),
 
                     cursor.getString(cursor.getColumnIndex(KEY_NOTE))
                     )

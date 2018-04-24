@@ -31,7 +31,6 @@ import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +60,6 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
 
     @BindView(R.id.txt_sample_name) TextView txtSampleName;
     @BindView(R.id.txt_outcrop_name) TextView txtOutcropName;
-
     @BindView(R.id.edit_location_no) TextInputEditText editLocationNo;
     @BindView(R.id.edit_location_date) TextInputEditText editDate;
     @BindView(R.id.edit_location_time) TextInputEditText editTime;
@@ -77,6 +75,12 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
     @BindView(R.id.edit_lineation) TextInputEditText editLineation;
     @BindView(R.id.edit_other_note) TextInputEditText editNote;
 
+    @BindView(R.id.btn_gps_location) ImageButton btnGpsLocation;
+    @BindView(R.id.btn_take_outcrop) Button btnTakeOutcrop;
+    @BindView(R.id.btn_take_sample) Button btnTakeSample;
+    @BindView(R.id.edit_outcrop_facing) TextInputEditText editOutcropFacing;
+    @BindView(R.id.edit_sample_facing) TextInputEditText editSampleFacing;
+
     private AutoCompleteTextView autoRockUnit, autoTexture, autoWeatheringColor, autoFreshColor;
     private MultiAutoCompleteTextView multiAutoMineralComposition;
     private Spinner spinnerRockType, spinnerGrainSize;
@@ -85,6 +89,7 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
             REQUEST_GET_CONTENT = 4;
     private String outcropName, outcropPath, sampleName, samplePath;
     private int traverseId;
+    private String traverseTitle;
     private LocationManager locationManager;
     private MyNotesLocationDb locationDb;
 
@@ -96,17 +101,17 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
         ButterKnife.bind(this, this);
         locationDb = new MyNotesLocationDb(this);
 
-        if(getSupportActionBar() != null)
-        {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.new_location);
         }
 
         Intent intent = getIntent();
-        if(intent != null)
-        {
+        if (intent != null) {
             int locationNo = intent.getIntExtra(MyNotesLocation.NO, 0);
             editLocationNo.setText(String.valueOf(locationNo));
             traverseId = intent.getIntExtra(Traverse.ID, 0);
+            traverseTitle = intent.getStringExtra(Traverse.TITLE);
+
         }
 
         editDate.setText(Utility.getDate());
@@ -126,7 +131,6 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
         setExpandToggle(R.id.layout_header_lithology, R.id.layout_lithology, R.id.img_lithology_toggle);
         setExpandToggle(R.id.layout_header_structures, R.id.layout_structures, R.id.img_structures_toggle);
 
-        Button btnTakeSample = (Button) findViewById(R.id.btn_take_sample);
         btnTakeSample.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +142,6 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
             }
         });
 
-        Button btnTakeOutcrop = findViewById(R.id.btn_take_outcrop);
         btnTakeOutcrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,34 +153,15 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
             }
         });
 
-        ImageButton btnGpsLocation = findViewById(R.id.btn_gps_location);
         btnGpsLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (Utility.isNetworkAvailable(v.getContext())) {
-                    requestLocation();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                    builder.setTitle("Warning")
-                            .setMessage("No internet connection")
-                            .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                }*/
-
                 requestLocation();
             }
         });
     }
 
-    private void requestLocation()
-    {
+    private void requestLocation() {
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
@@ -195,9 +179,9 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
     }
 
     @Override
-    public void onDialogDismissed(int compassName, int direction, int axis, int slopeAngle)
-    {
+    public void onDialogDismissed(int compassName, int direction, int axis, int slopeAngle) {
         String value = axis + DEGREE + "/" + direction + DEGREE;
+        String facing = direction + DEGREE;
 
         switch (compassName)
         {
@@ -225,6 +209,14 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
             case R.string.lineation:
                 editLineation.setText(value);
                 break;
+
+            case R.string.outcrop_facing:
+                editOutcropFacing.setText(facing);
+                break;
+
+            case R.string.sample_facing:
+                editSampleFacing.setText(facing);
+                break;
         }
     }
 
@@ -235,33 +227,41 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
         switch (id)
         {
             case R.id.btn_bedding_foliation:
-                args.putInt("compassName", R.string.bedding_foliation);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.bedding_foliation);
                 break;
 
             case R.id.btn_j1:
-                args.putInt("compassName", R.string.j1);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.j1);
                 break;
 
             case R.id.btn_j2:
-                args.putInt("compassName", R.string.j2);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.j2);
                 break;
 
             case R.id.btn_j3:
-                args.putInt("compassName", R.string.j3);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.j3);
                 break;
 
             case R.id.btn_fold_axis:
-                args.putInt("compassName", R.string.fold_axis);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.fold_axis);
                 break;
 
             case R.id.btn_lineation:
-                args.putInt("compassName", R.string.lineation);
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.lineation);
+                break;
+
+            case R.id.btn_outcrop_facing:
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.outcrop_facing);
+                break;
+
+            case R.id.btn_sample_facing:
+                args.putInt(CompassDialog.COMPASS_NAME, R.string.sample_facing);
                 break;
         }
 
         CompassDialog compassDialog = new CompassDialog();
         compassDialog.setArguments(args);
-        compassDialog.show(getSupportFragmentManager(), "CompassDialog");
+        compassDialog.show(getSupportFragmentManager(), CompassDialog.class.getSimpleName());
     }
 
     @Override
@@ -281,10 +281,8 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-        {
+                                           @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             switch (requestCode) {
                 case REQUEST_IMAGE_SAMPLE:
                     try {
@@ -317,16 +315,14 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
                 PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(
                         this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                        PackageManager.PERMISSION_GRANTED)
-        {
+                        PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_IMAGE_OUTCROP
             );
-        }
-        else {
+        } else {
             /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (intent.resolveActivity(getPackageManager()) != null)
             {
@@ -347,18 +343,16 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
                 }
             }*/
 
-            String imageFileName = "outcrop_" + String.valueOf(traverseId) + "_" + get(editLocationNo) +
+            String imageFileName = "outcrop_" + traverseTitle + "_" + get(editLocationNo) +
                     "_" + Utility.getDay();
             outcropName = imageFileName;
 
             File storageDir = new File(Environment.getExternalStorageDirectory(), "/Geologist");
-            if(!storageDir.exists())
-            {
+            if (!storageDir.exists()) {
                 storageDir.mkdir();
             }
             File parentDir = new File(storageDir, "/MyNotes");
-            if(!parentDir.exists())
-            {
+            if (!parentDir.exists()) {
                 parentDir.mkdir();
             }
 
@@ -392,29 +386,25 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
                 PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(
                         this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
-                        PackageManager.PERMISSION_GRANTED)
-        {
+                        PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_EXTERNAL_STORAGE},
                     REQUEST_IMAGE_SAMPLE
             );
-        }
-        else {
+        } else {
 
-            String imageFileName = "sample_" + String.valueOf(traverseId) + "_" + get(editLocationNo)
+            String imageFileName = "sample_" + traverseTitle + "_" + get(editLocationNo)
                     + "_" + Utility.getDay();
             sampleName = imageFileName;
 
             File storageDir = new File(Environment.getExternalStorageDirectory(), "/Geologist");
-            if(!storageDir.exists())
-            {
+            if (!storageDir.exists()) {
                 storageDir.mkdir();
             }
             File parentDir = new File(storageDir, "/MyNotes");
-            if(!parentDir.exists())
-            {
+            if (!parentDir.exists()) {
                 parentDir.mkdir();
             }
 
@@ -446,10 +436,8 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK)
-        {
-            switch (requestCode)
-            {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case REQUEST_IMAGE_SAMPLE:
                     setImage(layoutSampleResult, imgSampleResult, txtSampleName, samplePath,
                             sampleName);
@@ -463,11 +451,8 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
                 case REQUEST_GET_CONTENT:
                     break;
             }
-        }
-        else if(resultCode == RESULT_CANCELED)
-        {
-            switch (requestCode)
-            {
+        } else if (resultCode == RESULT_CANCELED) {
+            switch (requestCode) {
                 case REQUEST_IMAGE_SAMPLE:
                     try {
                         deleteImageFile(samplePath);
@@ -545,15 +530,16 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
         return super.onOptionsItemSelected(item);
     }
 
-    private void onDone()
-    {
+    private void onDone() {
         String locationTitle = "Location " + get(editLocationNo);
         MyNotesLocation location = new MyNotesLocation(
                 traverseId, locationTitle, get(editTime), get(editDate), get(editLatitude),
                 get(editLongitude),
                 get(editMapNo), get(spinnerRockType), get(autoRockUnit), outcropPath, outcropName,
+                get(editOutcropFacing),
                 get(autoTexture), get(autoWeatheringColor), get(autoFreshColor), get(spinnerGrainSize),
                 get(multiAutoMineralComposition), get(edtLithologyNote), samplePath, sampleName,
+                get(editSampleFacing),
                 get(editBeddingFoliation), get(editJ1), get(editJ2), get(editJ3), get(editFoldAxis),
                 get(editLineation), get(editNote)
         );
@@ -562,7 +548,7 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
 
         Intent intent = new Intent();
         intent.putExtra(MyNotesLocation.TITLE, locationTitle);
-        intent.putExtra(MyNotesLocation.TIME, editTime.getText().toString());
+        intent.putExtra(MyNotesLocation.TIME, get(editTime));
         intent.putExtra(MyNotesLocation.ID, id);
         setResult(RESULT_OK, intent);
 
@@ -571,8 +557,7 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
     }
 
     @Override
-    public void onLocationChanged(Location location)
-    {
+    public void onLocationChanged(Location location) {
         if (ContextCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
@@ -586,8 +571,7 @@ public class LocationNewActivity extends BaseActivity implements LocationListene
                     REQUEST_LOCATION
             );
         } else {
-            if(location == null)
-            {
+            if (location == null) {
                 location = locationManager.getLastKnownLocation(LOCATION_PROVIDER);
             }
 

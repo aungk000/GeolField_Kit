@@ -93,6 +93,7 @@ public class StratigraphyTraverseActivity extends BaseActivity
                         StratigraphyLocationNewActivity.class);
                 intent.putExtra(StratigraphyLocation.NO, locationList.size() + 1);
                 intent.putExtra(Traverse.ID, traverseId);
+                intent.putExtra(Traverse.TITLE, traverseTitle);
 
                 if(intent.resolveActivity(getPackageManager()) != null)
                 {
@@ -268,20 +269,20 @@ public class StratigraphyTraverseActivity extends BaseActivity
                         "Lithology: " + each.getLithology() + "\n" +
                         "Index fossil: " + each.getFossil() + "\n" +
                         "Age: " + each.getAge() + "\n" +
-                        "Photo: " + each.getFmName() + "\n" +
+                        "Photo: " + each.getFormationName() + "\n" +
 
                         "Bedding plane: " + each.getBeddingPlane() + "\n" +
                         "Fold axis: " + each.getFoldAxis() + "\n" +
                         "Fault: " + each.getFault() + "\n" +
                         "Joint: " + each.getJoint() + "\n" +
 
-                        "Rock sample: " + each.getrName() + "\n" +
-                        "Fossil: " + each.getfName() + "\n" +
+                        "Rock sample: " + each.getRockName() + "\n" +
+                        "Fossil: " + each.getFossilName() + "\n" +
 
                         "Mineralization: " + each.getMineralization() + "\n" +
                         "Ore name: " + each.getOre() + "\n" +
                         "Mineralization nature: " + each.getMineralizationNature() + "\n" +
-                        "Ore sample: " + each.getoName() + "\n" +
+                        "Ore sample: " + each.getOreName() + "\n" +
 
                         "Note: " + each.getNote() + "\n";
 

@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.aungkooo.geologist.R;
 import me.aungkooo.geologist.activity.StratigraphyLocationDetailActivity;
 import me.aungkooo.geologist.model.StratigraphyLocation;
@@ -18,13 +20,14 @@ import me.aungkooo.geologist.model.StratigraphyLocation;
 
 public class StratigraphyLocationViewHolder extends RecyclerViewHolder<StratigraphyLocation> implements View.OnClickListener
 {
-    private TextView txtTitle, txtTime;
+    @BindView(R.id.txt_location_title) TextView txtTitle;
+    @BindView(R.id.txt_location_time) TextView txtTime;
+
     private StratigraphyLocation location;
 
     public StratigraphyLocationViewHolder(View itemView, Context context) {
         super(itemView, context);
-        txtTitle = findById(R.id.txt_location_title);
-        txtTime = findById(R.id.txt_location_time);
+        ButterKnife.bind(this, itemView);
         setOnClickListener(this);
     }
 

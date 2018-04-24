@@ -48,6 +48,8 @@ public class LocationDetailActivity extends BaseActivity
     @BindView(R.id.txt_fold_axis) TextView txtFoldAxis;
     @BindView(R.id.txt_lineation) TextView txtLineation;
     @BindView(R.id.txt_note) TextView txtNote;
+    @BindView(R.id.txt_outcrop_facing) TextView txtOutcropFacing;
+    @BindView(R.id.txt_sample_facing) TextView txtSampleFacing;
 
     @BindView(R.id.img_outcrop) ImageView imgOutcrop;
     @BindView(R.id.img_sample) ImageView imgSample;
@@ -79,6 +81,8 @@ public class LocationDetailActivity extends BaseActivity
             txtRockType.setText(location.getRockType());
             txtRockUnit.setText(location.getRockUnit());
             txtOutcrop.setText(location.getOutcropName());
+            String outcropFacing = "Photo facing: " + location.getOutcropFacing();
+            txtOutcropFacing.setText(outcropFacing);
 
             txtTexture.setText(location.getTexture());
             txtWeatheringColor.setText(location.getWeatheringColor());
@@ -87,6 +91,8 @@ public class LocationDetailActivity extends BaseActivity
             txtMineralComposition.setText(location.getMineralComposition());
             txtLithologyNote.setText(location.getLithologyNote());
             txtSample.setText(location.getSampleName());
+            String sampleFacing = "Photo facing: " + location.getSampleFacing();
+            txtSampleFacing.setText(sampleFacing);
 
             txtBeddingFoliation.setText(location.getBeddingFoliation());
             txtJ1.setText(location.getJ1());

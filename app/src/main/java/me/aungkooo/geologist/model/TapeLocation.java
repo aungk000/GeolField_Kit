@@ -8,9 +8,9 @@ public class TapeLocation
 {
     private int id, traverseId, stationNo;
     private String title, date, time, latitude, longitude, bearingSlope, lithology, photoPath,
-            photoName, beddingFoliation, j1, j2, j3, foldAxis, lineation, note;
+            photoName, photoFacing, beddingFoliation, j1, j2, j3, foldAxis, lineation, note;
     private double horizontalDistance, slopeDistance;
-    public static String TITLE = "locationTitle", TIME = "locationTime", ID = "locationId",
+    public static final String TITLE = "locationTitle", TIME = "locationTime", ID = "locationId",
     STATION_NO = "stationNo", NO = "locationNo";
 
     public TapeLocation() {
@@ -25,8 +25,8 @@ public class TapeLocation
     // database
     public TapeLocation(int traverseId, int stationNo, String title, String date, String time,
                         String latitude, String longitude, String bearingSlope, String lithology,
-                        String photoPath, String photoName, String beddingFoliation, String j1,
-                        String j2, String j3, String foldAxis, String lineation, String note,
+                        String photoPath, String photoName, String photoFacing, String beddingFoliation,
+                        String j1, String j2, String j3, String foldAxis, String lineation, String note,
                         double horizontalDistance, double slopeDistance) {
         this.traverseId = traverseId;
         this.stationNo = stationNo;
@@ -39,6 +39,7 @@ public class TapeLocation
         this.lithology = lithology;
         this.photoPath = photoPath;
         this.photoName = photoName;
+        this.photoFacing = photoFacing;
         this.beddingFoliation = beddingFoliation;
         this.j1 = j1;
         this.j2 = j2;
@@ -53,7 +54,8 @@ public class TapeLocation
     // print
     public TapeLocation(int stationNo, String title, String date, String time, String latitude,
                         String longitude, String bearingSlope, String lithology,
-                        String photoName, String beddingFoliation, String j1, String j2, String j3,
+                        String photoName, String photoFacing, String beddingFoliation, String j1,
+                        String j2, String j3,
                         String foldAxis, String lineation, String note, double horizontalDistance,
                         double slopeDistance) {
         this.stationNo = stationNo;
@@ -65,6 +67,7 @@ public class TapeLocation
         this.bearingSlope = bearingSlope;
         this.lithology = lithology;
         this.photoName = photoName;
+        this.photoFacing = photoFacing;
         this.beddingFoliation = beddingFoliation;
         this.j1 = j1;
         this.j2 = j2;
@@ -76,12 +79,12 @@ public class TapeLocation
         this.slopeDistance = slopeDistance;
     }
 
-
     // single
     public TapeLocation(int stationNo, String date, String time, String latitude,
                         String longitude, String bearingSlope, double horizontalDistance,
                         double slopeDistance, String lithology, String photoPath,
-                        String photoName, String beddingFoliation, String j1, String j2, String j3,
+                        String photoName, String photoFacing, String beddingFoliation, String j1,
+                        String j2, String j3,
                         String foldAxis, String lineation, String note) {
         this.stationNo = stationNo;
         this.date = date;
@@ -92,6 +95,7 @@ public class TapeLocation
         this.lithology = lithology;
         this.photoPath = photoPath;
         this.photoName = photoName;
+        this.photoFacing = photoFacing;
         this.beddingFoliation = beddingFoliation;
         this.j1 = j1;
         this.j2 = j2;
@@ -213,6 +217,14 @@ public class TapeLocation
 
     public void setPhotoName(String photoName) {
         this.photoName = photoName;
+    }
+
+    public String getPhotoFacing() {
+        return photoFacing;
+    }
+
+    public void setPhotoFacing(String photoFacing) {
+        this.photoFacing = photoFacing;
     }
 
     public String getNote() {

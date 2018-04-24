@@ -8,8 +8,6 @@ public class Traverse
 
     public static String TITLE = "traverseTitle", DATE = "traverseDate", SIZE = "traverseSize",
     ID = "traverseId";
-    public static int REQUEST_TRAVERSE_NEW = 3;
-    public static int RESULT_OK = -1;
 
     public Traverse() {
     }

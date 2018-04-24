@@ -1,14 +1,10 @@
 package me.aungkooo.geologist.viewholder;
 
-
 import android.content.Context;
-import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
-
-import me.aungkooo.geologist.adapter.RecyclerAdapter;
 
 /**
  * Created by Ko Oo on 9/4/18.
@@ -43,11 +39,4 @@ public abstract class RecyclerViewHolder<OBJ> extends RecyclerView.ViewHolder
     }
 
     public abstract void onBind(ArrayList<OBJ> itemList);
-
-    // ButterKnife
-    @SuppressWarnings("unchecked")
-    public <V extends View> V findById(@IdRes int id)
-    {
-        return (V) view.findViewById(id);
-    }
 }

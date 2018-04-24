@@ -7,10 +7,12 @@ package me.aungkooo.geologist.model;
 public class MyNotesLocation
 {
     private int id, traverseId;
-    private String title, time, date, latitude, longitude, map, rockType, rockUnit, outcropPath, outcropName,
+    private String title, time, date, latitude, longitude, map, rockType, rockUnit, outcropPath,
+            outcropName, outcropFacing,
             texture, weatheringColor, freshColor, grainSize, mineralComposition, lithologyNote,
-            samplePath, sampleName, beddingFoliation, j1, j2, j3, foldAxis, lineation, note;
-    public static String TITLE = "locationTitle", TIME = "locationTime", ID = "locationId",
+            samplePath, sampleName, sampleFacing,
+            beddingFoliation, j1, j2, j3, foldAxis, lineation, note;
+    public static final String TITLE = "locationTitle", TIME = "locationTime", ID = "locationId",
             NO = "locationNo";
 
     public MyNotesLocation() {
@@ -23,11 +25,12 @@ public class MyNotesLocation
     }
 
     public MyNotesLocation(int traverseId, String title, String time, String date, String latitude,
-                           String longitude,
-                           String map, String rockType, String rockUnit, String outcropPath,
-                           String outcropName, String texture, String weatheringColor,
+                           String longitude, String map, String rockType, String rockUnit,
+                           String outcropPath, String outcropName, String outcropFacing,
+                           String texture, String weatheringColor,
                            String freshColor, String grainSize, String mineralComposition,
                            String lithologyNote, String samplePath, String sampleName,
+                           String sampleFacing,
                            String beddingFoliation, String j1, String j2, String j3, String foldAxis,
                            String lineation, String note) {
         this.traverseId = traverseId;
@@ -41,6 +44,7 @@ public class MyNotesLocation
         this.rockUnit = rockUnit;
         this.outcropPath = outcropPath;
         this.outcropName = outcropName;
+        this.outcropFacing = outcropFacing;
         this.texture = texture;
         this.weatheringColor = weatheringColor;
         this.freshColor = freshColor;
@@ -49,6 +53,7 @@ public class MyNotesLocation
         this.lithologyNote = lithologyNote;
         this.samplePath = samplePath;
         this.sampleName = sampleName;
+        this.sampleFacing = sampleFacing;
         this.beddingFoliation = beddingFoliation;
         this.j1 = j1;
         this.j2 = j2;
@@ -60,10 +65,11 @@ public class MyNotesLocation
 
     // print
     public MyNotesLocation(String title, String time, String date, String latitude, String longitude,
-                           String map,
-                           String rockType, String rockUnit, String outcropName, String texture,
-                           String weatheringColor, String freshColor, String grainSize,
+                           String map, String rockType, String rockUnit, String outcropName,
+                           String outcropFacing,
+                           String texture, String weatheringColor, String freshColor, String grainSize,
                            String mineralComposition, String lithologyNote, String sampleName,
+                           String sampleFacing,
                            String beddingFoliation, String j1, String j2, String j3, String foldAxis,
                            String lineation, String note) {
         this.title = title;
@@ -75,6 +81,7 @@ public class MyNotesLocation
         this.rockType = rockType;
         this.rockUnit = rockUnit;
         this.outcropName = outcropName;
+        this.outcropFacing = outcropFacing;
         this.texture = texture;
         this.weatheringColor = weatheringColor;
         this.freshColor = freshColor;
@@ -82,6 +89,7 @@ public class MyNotesLocation
         this.mineralComposition = mineralComposition;
         this.lithologyNote = lithologyNote;
         this.sampleName = sampleName;
+        this.sampleFacing = sampleFacing;
         this.beddingFoliation = beddingFoliation;
         this.j1 = j1;
         this.j2 = j2;
@@ -94,9 +102,11 @@ public class MyNotesLocation
     // single
     public MyNotesLocation(String time, String date, String latitude, String longitude, String map,
                            String rockType, String rockUnit, String outcropPath, String outcropName,
+                           String outcropFacing,
                            String texture, String weatheringColor, String freshColor, String grainSize,
                            String mineralComposition, String lithologyNote, String samplePath,
-                           String sampleName, String beddingFoliation, String j1, String j2,
+                           String sampleName, String sampleFacing,
+                           String beddingFoliation, String j1, String j2,
                            String j3, String foldAxis, String lineation, String note) {
         this.time = time;
         this.date = date;
@@ -107,6 +117,7 @@ public class MyNotesLocation
         this.rockUnit = rockUnit;
         this.outcropPath = outcropPath;
         this.outcropName = outcropName;
+        this.outcropFacing = outcropFacing;
         this.texture = texture;
         this.weatheringColor = weatheringColor;
         this.freshColor = freshColor;
@@ -115,6 +126,7 @@ public class MyNotesLocation
         this.lithologyNote = lithologyNote;
         this.samplePath = samplePath;
         this.sampleName = sampleName;
+        this.sampleFacing = sampleFacing;
         this.beddingFoliation = beddingFoliation;
         this.j1 = j1;
         this.j2 = j2;
@@ -218,6 +230,22 @@ public class MyNotesLocation
 
     public void setOutcropName(String outcropName) {
         this.outcropName = outcropName;
+    }
+
+    public String getOutcropFacing() {
+        return outcropFacing;
+    }
+
+    public void setOutcropFacing(String outcropFacing) {
+        this.outcropFacing = outcropFacing;
+    }
+
+    public String getSampleFacing() {
+        return sampleFacing;
+    }
+
+    public void setSampleFacing(String sampleFacing) {
+        this.sampleFacing = sampleFacing;
     }
 
     public String getTexture() {

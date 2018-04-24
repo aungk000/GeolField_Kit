@@ -39,6 +39,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
     public static final String KEY_ROCK_UNIT = "rock_unit";
     public static final String KEY_OUTCROP_PATH = "outcrop_path";
     public static final String KEY_OUTCROP_NAME = "outcrop_name";
+    public static final String KEY_OUTCROP_FACING = "outcrop_facing";
 
     public static final String KEY_TEXTURE = "texture";
     public static final String KEY_WEATHERING_COLOR = "weathering_color";
@@ -48,6 +49,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
     public static final String KEY_LITHOLOGY_NOTE = "lithology_note";
     public static final String KEY_SAMPLE_PATH = "sample_path";
     public static final String KEY_SAMPLE_NAME = "sample_name";
+    public static final String KEY_SAMPLE_FACING = "sample_facing";
 
     public static final String KEY_BEDDING_FOLIATION = "bedding_foliation";
     public static final String KEY_J1 = "j1";
@@ -73,6 +75,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
                     KEY_ROCK_UNIT + TEXT + COMMA +
                     KEY_OUTCROP_PATH + TEXT + COMMA +
                     KEY_OUTCROP_NAME + TEXT + COMMA +
+                    KEY_OUTCROP_FACING + TEXT + COMMA +
 
                     KEY_TEXTURE + TEXT + COMMA +
                     KEY_WEATHERING_COLOR + TEXT + COMMA +
@@ -82,6 +85,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
                     KEY_LITHOLOGY_NOTE + TEXT + COMMA +
                     KEY_SAMPLE_PATH + TEXT + COMMA +
                     KEY_SAMPLE_NAME + TEXT + COMMA +
+                    KEY_SAMPLE_FACING + TEXT + COMMA +
 
                     KEY_BEDDING_FOLIATION + TEXT + COMMA +
                     KEY_J1 + TEXT + COMMA +
@@ -124,6 +128,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
         values.put(KEY_ROCK_UNIT, location.getRockUnit());
         values.put(KEY_OUTCROP_PATH, location.getOutcropPath());
         values.put(KEY_OUTCROP_NAME, location.getOutcropName());
+        values.put(KEY_OUTCROP_FACING, location.getOutcropFacing());
 
         values.put(KEY_TEXTURE, location.getTexture());
         values.put(KEY_WEATHERING_COLOR, location.getWeatheringColor());
@@ -134,6 +139,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
         values.put(KEY_LITHOLOGY_NOTE, location.getLithologyNote());
         values.put(KEY_SAMPLE_PATH, location.getSamplePath());
         values.put(KEY_SAMPLE_NAME, location.getSampleName());
+        values.put(KEY_SAMPLE_FACING, location.getSampleFacing());
 
         values.put(KEY_BEDDING_FOLIATION, location.getBeddingFoliation());
         values.put(KEY_J1, location.getJ1());
@@ -194,6 +200,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
                 cursor.getString(cursor.getColumnIndex(KEY_ROCK_UNIT)),
                 cursor.getString(cursor.getColumnIndex(KEY_OUTCROP_PATH)),
                 cursor.getString(cursor.getColumnIndex(KEY_OUTCROP_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_OUTCROP_FACING)),
 
                 cursor.getString(cursor.getColumnIndex(KEY_TEXTURE)),
                 cursor.getString(cursor.getColumnIndex(KEY_WEATHERING_COLOR)),
@@ -203,6 +210,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
                 cursor.getString(cursor.getColumnIndex(KEY_LITHOLOGY_NOTE)),
                 cursor.getString(cursor.getColumnIndex(KEY_SAMPLE_PATH)),
                 cursor.getString(cursor.getColumnIndex(KEY_SAMPLE_NAME)),
+                cursor.getString(cursor.getColumnIndex(KEY_SAMPLE_FACING)),
 
                 cursor.getString(cursor.getColumnIndex(KEY_BEDDING_FOLIATION)),
                 cursor.getString(cursor.getColumnIndex(KEY_J1)),
@@ -273,6 +281,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
                     cursor.getString(cursor.getColumnIndex(KEY_ROCK_TYPE)),
                     cursor.getString(cursor.getColumnIndex(KEY_ROCK_UNIT)),
                     cursor.getString(cursor.getColumnIndex(KEY_OUTCROP_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_OUTCROP_FACING)),
 
                     cursor.getString(cursor.getColumnIndex(KEY_TEXTURE)),
                     cursor.getString(cursor.getColumnIndex(KEY_WEATHERING_COLOR)),
@@ -281,6 +290,7 @@ public class MyNotesLocationDb extends SQLiteOpenHelper
                     cursor.getString(cursor.getColumnIndex(KEY_MINERAL_COMPOSITION)),
                     cursor.getString(cursor.getColumnIndex(KEY_LITHOLOGY_NOTE)),
                     cursor.getString(cursor.getColumnIndex(KEY_SAMPLE_NAME)),
+                    cursor.getString(cursor.getColumnIndex(KEY_SAMPLE_FACING)),
 
                     cursor.getString(cursor.getColumnIndex(KEY_BEDDING_FOLIATION)),
                     cursor.getString(cursor.getColumnIndex(KEY_J1)),

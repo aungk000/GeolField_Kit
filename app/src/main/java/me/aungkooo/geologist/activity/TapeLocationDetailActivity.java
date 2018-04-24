@@ -38,6 +38,7 @@ public class TapeLocationDetailActivity extends BaseActivity
     @BindView(R.id.img_photo_result) ImageView imgPhotoResult;
     @BindView(R.id.txt_photo_name) TextView txtPhotoName;
     @BindView(R.id.txt_note) TextView txtNote;
+    @BindView(R.id.txt_photo_facing) TextView txtPhotoFacing;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +77,9 @@ public class TapeLocationDetailActivity extends BaseActivity
             txtLineation.setText(location.getLineation());
 
             txtPhotoName.setText(location.getPhotoName());
+            String photoFacing = "Photo facing: " + location.getPhotoFacing();
+            txtPhotoFacing.setText(photoFacing);
+
             txtNote.setText(location.getNote());
 
             String photoPath = location.getPhotoPath();

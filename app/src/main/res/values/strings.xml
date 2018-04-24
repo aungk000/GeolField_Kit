@@ -3,7 +3,6 @@
 
     <string name="field_note">Field Note</string>
     <string name="tape_and_compass">Tape and Compass</string>
-    <string name="contour">Contour</string>
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
 
@@ -74,10 +73,18 @@
     <string name="print">Print</string>
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
+
+    <!-- Tape and Compass -->
     <string name="station_no">Station no</string>
     <string name="slope_distance">Slope distance</string>
     <string name="bearing_and_slope_angle">Bearing and Slope angle</string>
     <string name="horizontal_distance">Horizontal distance</string>
 
+    <string name="photo_facing">Photo facing</string>
+    <string name="outcrop_facing">Outcrop facing</string>
+    <string name="sample_facing">Sample facing</string>
+    <string name="rock_facing">Rock facing</string>
+    <string name="fossil_facing">Fossil facing</string>
+    <string name="ore_facing">Ore facing</string>
 
 </resources>

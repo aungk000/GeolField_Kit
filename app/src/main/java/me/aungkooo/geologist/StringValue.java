@@ -1,10 +1,9 @@
 package me.aungkooo.geologist;
 
 
-
 public class StringValue
 {
-    public static String[] rockColors = {
+    public static final String[] rockColors = {
             "black","blackish red","bluish white","brilliant green",
             "brownish black","brownish gray","dark greenish gray","dark greenish yellow",
             "dark reddish brown","dark yellowish brown","dark yellowish green",
@@ -29,7 +28,7 @@ public class StringValue
             "very pale orange","white","yellowish gray"
     };
 
-    public static String[] textures = {
+    public static final String[] textures = {
             "Adamantine", "Adcumulate","Agglomeritic","Amygdaloidal","Anhedral",
             "Antitaxial veins","Aphanitic","Aphanitic","Aplitic","Augen textured gneiss",
             "Axiolitic texture","Bedding fissile","Bedding fissility","Botryoidal","Boudinage",
@@ -52,7 +51,7 @@ public class StringValue
             "Vitreous","Vuggy"
     };
 
-    public static String[] rockUnits = {
+    public static final String[] rockUnits = {
             "Adakite","Adamellite","Alkali feldspar granite","Amphibolite","Andesite","Anorthosite",
             "Anthracite","Aphanite","Aplite","Appinite","Argillite","Arkose","Banded iron formation",
             "Basalt","Basaltic  trachyandesite","Basanite","Benmoreite","Blairmorite","Blue Granite",
@@ -105,7 +104,7 @@ public class StringValue
             "Wackestone","Wad" ,"Websterite","Wehrlite","Whiteschist"
     };
 
-    public static String[] mineralComposition = {
+    public static final String[] mineralComposition = {
             "Andalusite","Anhydrite","Apatite","Arsenopyrite","Augite","Azurite", "Barite","Bauxite",
             "Benitoite","Berylt","Biotite","Bornite","Calcite","Cassiterite","Chalcocite",
             "Chalcopyrite","Chlorite","Chromite","Chrysoberyl","Cinnabar","Clinozoisite","Copper",
@@ -121,10 +120,10 @@ public class StringValue
             "Zircon","Zoisite"
     };
 
-    public static String[] formationName = {"Tanshauk Member", "Nan-On Formation", "Wunbye Formation",
+    public static final String[] formationName = {"Tanshauk Member", "Nan-On Formation", "Wunbye Formation",
             "Lokepyin Formation", "Linwe Formation", "Thitsipin Limestone Formation" };
 
-    public static String[] lithology = {"appearance", "bedded", "bedded to massive", "brown", "buff", "calcareous",
+    public static final String[] lithology = {"appearance", "bedded", "bedded to massive", "brown", "buff", "calcareous",
             "calcareous Shale", "dark", "dark brown", "dark gray", "Dolomite", "graptolite",
             "graptolite bearing", "graptolite bearing Shale", "gray", "gray to buff", "indurated",
             "interbedded", "irregular", "irregular patches", "lenses", "light", "light to dark gray",
@@ -134,19 +133,27 @@ public class StringValue
             "thick-bedded", "thin to medium-bedded", "thin-bedded", "Wackestone", "yellow", "yellow to buff"
     };
 
-    public static String[] fossil = {"Brachiopoda", "Brachiopods", "Orthis sp", "Paurorthis sp", "Syntrophina sp",
+    public static final String[] fossil = {"Brachiopoda", "Brachiopods", "Orthis sp", "Paurorthis sp", "Syntrophina sp",
             "Bryozoa", "Fusulina", "Graptolitoidea", "Nautiloidea", "Nautiloids", "Recepticulitid algae",
             "Trilobita" } ;
 
-    public static String[] age = {"Latest Ordovician", "Late Ordovician", "Middle Ordovician", "Early Ordovician"};
+    public static final String[] age = {"Cenozoic","Early Archean","Early Cambrian","Early Cretaceous",
+            "Early Devonian","Early Jurassic","Early Mississippian","Early Ordovician",
+            "Early Pennsylvanian","Early Permain","Early Proterozoic","Early Silurian",
+            "Early Triassic","Eocene","Holocene","Late Archean","Late Cambrian","Late Cretaceous",
+            "Late Devonian","Late Jurassic","Late Mississippian","Late Ordovician","Late Pennsylvanian",
+            "Late Permain","Late Proterozoic","Late Silurian","Late Triassic","Mesozoic","Middle Archean",
+            "Middle Cambrian","Middle Devonian","Middle Jurassic","Middle Ordovician","Middle Proterozoic",
+            "Middle Silurian","Miocene","Oligocene","Paleocene","Paleozoic","Phanerozoic","Pleistocene",
+            "Pliocene","Quaternary","Tertiary"};
 
-    public static String[] mineralization = { "Lead mineral", "Copper mineral", "Gold mineral", "Iron mineral",
+    public static final String[] mineralization = { "Lead mineral", "Copper mineral", "Gold mineral", "Iron mineral",
             "Antimony mineral", "Tin-Tungsten mineral", "Coal mineral" };
 
-    public static String[] oreName = {"Azurite(2CuCO3Ca(OH)2)", "Barytes(BaSO4)", "Cassiterite(SnO2)",
+    public static final String[] oreName = {"Azurite(2CuCO3Ca(OH)2)", "Barytes(BaSO4)", "Cassiterite(SnO2)",
             "Chalcopyrite(CuFeS2)", "Galena(PbS)", "Graphite(C)", "Hematite(Fe2O3)", "Magnetite(Fe3O4)",
             "Malachite(Cu2CO3)", "Pyrolusite(MnO2)", "Sphalerite(ZnS)", "Stibnite(Sb2S3)",
             "Wolframite((Fe,Mn)WO4)" };
 
-    public static String[] mineralizationNature = { "Layer", "Vein", "Disseminated", "Ore Body", "Aggregated" };
+    public static final String[] mineralizationNature = { "Layer", "Vein", "Disseminated", "Ore Body", "Aggregated" };
 }

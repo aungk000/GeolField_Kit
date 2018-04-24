@@ -36,6 +36,7 @@ public class CompassDialog extends DialogFragment implements SensorEventListener
     @BindView(R.id.btn_compass_set) Button btnCompassSet;
     Unbinder unbinder;
 
+    public static final String COMPASS_NAME = "compassName";
     private String DEGREE = "\u00b0";
     private SensorManager sensorManager;
     private float[] gravity = new float[3], geomagnetic = new float[3], rotationMatrix = new float[9],
@@ -65,7 +66,7 @@ public class CompassDialog extends DialogFragment implements SensorEventListener
 
         unbinder = ButterKnife.bind(this, view);
 
-        final int compassName = getArguments().getInt("compassName");
+        final int compassName = getArguments().getInt(COMPASS_NAME);
         txtCompassTitle.setText(compassName);
 
         final OnCompassDialogListener listener = (OnCompassDialogListener) getActivity();
